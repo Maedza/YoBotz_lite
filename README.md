@@ -140,7 +140,24 @@ DEVELOPER_CHAT_ID=123456789
 
 # Infra
 REDIS_URL=redis://localhost:6379/0
+
+# Server
+TELEGRAM_SERVER_HOST=0.0.0.0
+TELEGRAM_SERVER_PORT=8000
+TELEGRAM_HOT_RELOAD=false
+TELEGRAM_WEBHOOK_SECRET=
+
+# Logging
 LOG_LEVEL=INFO
+LOG_FORMAT=text
+DEBUG=false
+
+# LLM keys (used by LLM-assisted onboarding)
+HF_TOKEN=your_huggingface_token
+GROQ_API_KEY=your_groq_api_key
+
+# Apps Script (default for product endpoints; per-business override in vault)
+APPS_SCRIPT_DEFAULT_TOKEN=
 ```
 
 **In short:** the root `.env` is for the system and the team; `businesses/{name}/.env` is for a single business. A business's own bots live in its own file — separate from the dev/team bots.
