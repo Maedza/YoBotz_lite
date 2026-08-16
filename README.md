@@ -1,4 +1,4 @@
-# YoBotz Lite — Lightweight Portfolio Version of YoBotz
+# YoBotz Lite
 
 ## About YoBotz
 
