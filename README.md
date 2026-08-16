@@ -48,6 +48,10 @@ YoBotz Lite is a lightweight portfolio version of the original working YoBotz pr
 
 > **Note:** YoBotz Lite includes a functional implementation of the landing page and onboarding flow, but these components are not considered finalized. They are included primarily to demonstrate the intended architecture and workflow and may differ from the more complete implementation used in the production system.
 
+### LLM-Assisted Onboarding
+
+During business onboarding, an LLM can be used to generate initial response templates from provided business information, reducing the manual effort required to configure a new business. These generated templates become part of the business configuration and are then used by the chatbot during normal operation.
+
 ---
 
 ## Architecture
