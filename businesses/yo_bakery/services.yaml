@@ -1,0 +1,29 @@
+services:
+  - name: "Birthday Cake"
+    duration_minutes: 120
+    price: 50.0
+    category: "Custom Orders"        # Groups similar services
+    requires_advance_notice: 48      # Hours of notice required
+    description: "A custom-designed cake for your celebration. Feeds 8-10 people."
+    internal_notes: "Requires consultation with head pastry chef."
+
+  - name: "Custom Pastry Box"
+    duration_minutes: 60
+    price: 30.0
+    category: "Custom Orders"
+    requires_advance_notice: 24
+    description: "A hand-picked selection of 6 of our daily pastries."
+
+  - name: "Bread Loaf Pre-Order"
+    duration_minutes: 30
+    price: 10.0
+    category: "Pre-Orders"
+    requires_advance_notice: 12
+    description: "Guarantee your favorite artisan loaf (Sourdough, Rye, or Brioche)."
+
+  - name: "Coffee Tasting Session"
+    duration_minutes: 45
+    price: 15.0
+    category: "Experiences"
+    max_participants: 6              # Important for bookings
+    description: "A guided tasting of three single-origin coffees, led by our barista."

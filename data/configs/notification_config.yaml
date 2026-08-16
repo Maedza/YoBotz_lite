@@ -1,0 +1,58 @@
+# Notification Configuration - Simplified
+
+enabled: true
+
+# Telegram Settings
+telegram:
+  enabled: true
+  bot_token: ${NOTIFICATION_BOT_TOKEN}
+  chat_ids:
+    developer: "${DEVELOPER_CHAT_ID}"
+
+# Business Configuration
+business:
+  default: yo_bakery
+  display_name_map:
+    yo_bakery: Yo Bakery
+
+# Business-specific settings
+business_settings:
+  yo_bakery:
+    timezone: Asia/Shanghai
+
+# Role-based routing
+roles:
+  business_owner:
+    channels: [telegram]
+    priorities: [CRITICAL, HIGH, MEDIUM, LOW]
+  developer:
+    channels: [telegram]
+    priorities: [CRITICAL, HIGH, MEDIUM]
+
+# Schedule for automated notifications
+schedule:
+  business_summary: "10:00"
+  technical_summary: "08:31"
+  weekly_report: "18:00"
+
+# Log monitoring
+log_monitor:
+  enabled: true
+  log_dir: data/logs
+  files:
+    - unified_gateway.log
+
+# Rate limiting
+rate_limiting:
+  telegram:
+    messages_per_second: 20
+    burst_limit: 50
+
+# Error handling
+error_handling:
+  retry_attempts: 3
+  fallback_to_basic: true
+  alert_on_failure: true
+
+# Settings
+log_to_console: true

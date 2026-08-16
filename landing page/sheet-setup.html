@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YoBotz — Google Sheets via Apps Script</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #0ea5e9;
+            --accent: #22c55e;
+            --warning: #f59e0b;
+            --dark: #1e293b;
+            --darker: #0f172a;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --border: rgba(255,255,255,0.1);
+            --danger: #ef4444;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--darker);
+            color: var(--light);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        .guide-container { max-width: 700px; margin: 0 auto; padding: 3rem 1.5rem; }
+        h1 { font-size: 1.8rem; margin-bottom: 0.5rem; color: var(--light); }
+        h1 + p { color: var(--gray); margin-bottom: 2rem; }
+
+        .guide-step {
+            margin-bottom: 1.5rem; padding: 1.5rem;
+            border: 1px solid var(--border); border-radius: 10px;
+            background: rgba(30,41,59,0.6); backdrop-filter: blur(8px);
+        }
+        .guide-step h3 { margin: 0 0 1rem 0; color: var(--light); font-size: 1.1rem; }
+        .guide-step code {
+            background: rgba(99,102,241,0.15); color: var(--secondary);
+            padding: 2px 6px; border-radius: 4px; font-size: 0.85em;
+        }
+        .guide-step ul, .guide-step ol { padding-left: 1.2rem; }
+        .guide-step li { margin-bottom: 4px; }
+
+        /* Tables */
+        .column-table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 14px; }
+        .column-table th, .column-table td {
+            border: 1px solid rgba(255,255,255,0.08); padding: 8px 12px; text-align: left;
+        }
+        .column-table th { background: rgba(99,102,241,0.15); color: var(--light); }
+        .column-table td { color: var(--light); }
+        .column-table td.required { color: var(--danger); font-weight: 600; }
+
+        /* Notes */
+        .note {
+            background: rgba(245,158,11,0.1); border-left: 3px solid var(--warning);
+            padding: 0.8rem 1rem; margin: 0.8rem 0; border-radius: 0 6px 6px 0; font-size: 14px;
+        }
+
+        /* Form fields */
+        .form-field { margin-bottom: 1rem; }
+        .form-field label { display: block; font-weight: 600; margin-bottom: 5px; color: var(--light); font-size: 14px; }
+        .form-field input {
+            width: 100%; padding: 10px 14px;
+            border: 1px solid var(--border); border-radius: 8px;
+            font-size: 14px; color: var(--light);
+            background: rgba(15,23,42,0.6);
+            transition: border-color 0.2s;
+        }
+        .form-field input:focus {
+            outline: none; border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
+        }
+        .form-field input::placeholder { color: var(--gray); }
+        .form-field .hint { font-size: 12px; color: var(--gray); margin-top: 4px; }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 8px 18px; border: none; border-radius: 8px;
+            font-size: 14px; font-weight: 600; cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-accent { background: var(--accent); color: white; }
+        .btn-accent:hover { background: #16a34a; }
+        .btn-outline {
+            background: transparent; border: 1px solid var(--border); color: var(--light);
+        }
+        .btn-outline:hover { border-color: var(--primary); }
+
+        .btn-row { display: flex; gap: 8px; align-items: center; margin-top: 1rem; flex-wrap: wrap; }
+
+        /* Test result */
+        .test-result {
+            margin-top: 10px; padding: 10px 14px; border-radius: 8px;
+            font-size: 13px; display: none;
+        }
+        .test-result.success {
+            display: block; background: rgba(34,197,94,0.1);
+            border: 1px solid rgba(34,197,94,0.3); color: var(--accent);
+        }
+        .test-result.error {
+            display: block; background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.3); color: var(--danger);
+        }
+        .test-result.loading {
+            display: block; background: rgba(99,102,241,0.1);
+            border: 1px solid rgba(99,102,241,0.3); color: var(--primary);
+        }
+
+        /* Collapsible help */
+        .help-toggle {
+            display: inline-flex; align-items: center; gap: 6px;
+            color: var(--secondary); cursor: pointer; font-size: 13px; margin-top: 4px;
+            background: none; border: none; padding: 4px 0;
+        }
+        .help-toggle:hover { color: var(--primary); }
+        .help-toggle .arrow { transition: transform 0.2s; font-size: 10px; display: inline-block; }
+        .help-toggle.open .arrow { transform: rotate(90deg); }
+
+        .help-content {
+            display: none; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border);
+        }
+        .help-content.visible { display: block; }
+
+        .help-content .guide-step { background: rgba(15,23,42,0.4); }
+
+        /* Code block */
+        pre {
+            position: relative; background: var(--darker);
+            border: 1px solid var(--border); border-radius: 8px;
+            padding: 1rem; overflow-x: auto; margin: 0.5rem 0;
+            font-size: 12px; line-height: 1.5;
+        }
+        pre code { color: #a5b4fc; background: none !important; padding: 0 !important; }
+        .copy-btn {
+            position: absolute; top: 8px; right: 8px; z-index: 2;
+            background: rgba(99,102,241,0.2); color: var(--light);
+            border: 1px solid rgba(99,102,241,0.4); padding: 5px 12px;
+            border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600;
+            transition: all 0.2s; letter-spacing: 0.3px;
+        }
+        .copy-btn:hover { background: rgba(99,102,241,0.2); border-color: var(--primary); }
+        .copy-btn.copied { background: var(--accent); border-color: var(--accent); }
+
+        /* Generator form inside help */
+        .generator-form { margin-bottom: 1rem; }
+        .form-row { display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap; }
+        .form-field-sm { flex: 1; min-width: 200px; }
+        .form-field-sm label { display: block; font-weight: 600; margin-bottom: 4px; font-size: 13px; color: var(--light); }
+        .form-field-sm input {
+            width: 100%; padding: 8px 10px;
+            border: 1px solid var(--border); border-radius: 6px;
+            font-size: 13px; color: var(--light);
+            background: rgba(15,23,42,0.5);
+        }
+        .form-field-sm input:focus { outline: none; border-color: var(--primary); }
+        .form-field-sm .hint { font-size: 11px; color: var(--gray); margin-top: 2px; }
+
+        .output-section h4 { margin-bottom: 6px; font-size: 14px; color: var(--light); }
+
+        /* Deployment steps */
+        .deploy-steps { margin-top: 1rem; }
+        .step-row {
+            display: flex; gap: 10px; align-items: flex-start; margin-bottom: 8px;
+            padding: 10px; background: rgba(15,23,42,0.3);
+            border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);
+            font-size: 14px;
+        }
+        .step-num {
+            background: var(--primary); color: white; border-radius: 50%;
+            width: 26px; height: 26px; display: flex; align-items: center;
+            justify-content: center; font-weight: 700; flex-shrink: 0; font-size: 12px;
+        }
+        .step-num.script { background: var(--warning); }
+        .step-num.deploy { background: var(--secondary); }
+        .step-text { line-height: 1.5; color: var(--light); }
+        .step-text strong { color: var(--light); }
+
+        .section-label {
+            color: var(--gray); font-size: 12px; text-transform: uppercase;
+            letter-spacing: 1px; margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="guide-container">
+        <h1>Google Sheets via Apps Script</h1>
+        <p>Connect your product inventory sheet — no GCP billing, just a free Apps Script web app.</p>
+
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- Quick Connect                                                      -->
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <div class="guide-step">
+            <h3>Connect Your Sheet</h3>
+
+            <div class="form-field">
+                <label for="appsScriptUrl">Apps Script Web App URL</label>
+                <input type="text" id="appsScriptUrl"
+                       placeholder="https://script.google.com/macros/s/.../exec"
+                       autocomplete="off">
+                <div class="hint">From step 7 after deploying the script.</div>
+            </div>
+
+            <div class="form-field">
+                <label for="secretToken">Secret Token</label>
+                <input type="text" id="secretToken"
+                       placeholder="The password from your script's SECRET_TOKEN"
+                       autocomplete="off">
+            </div>
+
+            <div class="btn-row">
+                <button class="btn btn-accent" onclick="testConnection()" id="testBtn">Test Connection</button>
+                <button class="help-toggle" onclick="toggleHelp()" id="helpToggle">
+                    <span class="arrow">▶</span> First time? Need help setting up?
+                </button>
+            </div>
+
+            <div class="test-result" id="testResult"></div>
+
+            <!-- ═══════════════════════════════════════════════════════ -->
+            <!-- Collapsible Help                                        -->
+            <!-- ═══════════════════════════════════════════════════════ -->
+            <div class="help-content" id="helpContent">
+
+                <div class="guide-step">
+                    <h3>How It Works</h3>
+                    <p>A small Google Apps Script bound to your sheet acts as a web API. YoBotz calls it with your token → gets your product list as JSON → syncs to <code>products.json</code>.</p>
+                    <div class="note">No OAuth2 or GCP needed. The script runs as <em>you</em>, so it reads your private sheet directly.</div>
+                </div>
+
+                <div class="guide-step">
+                    <h3>1. Create Your Sheet</h3>
+                    <p>Put these as column headers in <strong>Row 1</strong>. Only <strong>Product Name</strong> is mandatory — the rest are optional.</p>
+                    <table class="column-table">
+                        <thead>
+                            <tr><th>Column</th><th>Example</th><th style="font-size:12px;font-weight:400;">Required?</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td class="required">Product Name</td><td>Sourdough Bread</td><td>Yes</td></tr>
+                            <tr><td>Category</td><td>Breads</td><td>No</td></tr>
+                            <tr><td>Variant Name</td><td>6 inch</td><td>No</td></tr>
+                            <tr><td>Price</td><td>$5.99</td><td>No</td></tr>
+                            <tr><td>Description</td><td>Traditional sourdough</td><td>No</td></tr>
+                            <tr><td>Bookable</td><td>Yes / No</td><td>No</td></tr>
+                            <tr><td>Quantity</td><td>10</td><td>No</td></tr>
+                            <tr><td>Synonyms</td><td>bread, loaf</td><td>No</td></tr>
+                        </tbody>
+                    </table>
+                    <div class="note"><strong>Variants:</strong> If a product has sizes/flavors (e.g. Red Velvet 6-inch, 8-inch), create <em>separate rows</em> with the <strong>same Product Name</strong> and a different <strong>Variant Name</strong> + <strong>Price</strong> per row. YoBotz auto-groups them and shows a variant picker during ordering. Leave Variant Name blank if the product has no variants.</div>
+                    <div class="note">Quantity = 0 or blank → product is marked unavailable automatically.</div>
+                </div>
+
+                <div class="guide-step">
+                    <h3>2. Generate Your Script</h3>
+                    <p style="font-size:13px; color:var(--gray); margin-bottom:0.8rem;">Enter your values below — the script updates live. Click <strong style="color:var(--light);">Copy</strong> when ready.</p>
+
+                    <div class="generator-form">
+                        <div class="form-row">
+                            <div class="form-field-sm">
+                                <label for="genToken">Secret Token</label>
+                                <input type="text" id="genToken"
+                                       placeholder="e.g. my_bakery_bot_secret_token_2026"
+                                       autocomplete="off">
+                                <div class="hint">A password. YoBotz needs this to authenticate.</div>
+                            </div>
+                            <div class="form-field-sm">
+                                <label for="genSheet">Sheet Tab Name</label>
+                                <input type="text" id="genSheet"
+                                       placeholder="e.g. Bakery Products Inventory V4"
+                                       autocomplete="off">
+                                <div class="hint">Exact tab name. Case-sensitive.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="output-section">
+                        <h4>Copy this entire block</h4>
+                        <div style="position: relative;">
+                            <button class="copy-btn" onclick="copyCode()" id="copyBtn">Copy</button>
+                            <pre id="codeBlock"><code id="codeOutput">function doGet(e) {
+  var token = e.parameter.token;
+  var SECRET_TOKEN = "my_bakery_bot_secret_token_2026";
+
+  if (token !== SECRET_TOKEN) {
+    return ContentService.createTextOutput(JSON.stringify({error: "Unauthorized"}))
+                         .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  var sheet = SpreadsheetApp.getActiveSpreadsheet()
+                   .getSheetByName("Bakery Products Inventory V4");
+
+  var data = sheet.getDataRange().getValues();
+  var headers = data[0];
+  var rows = [];
+  for (var i = 1; i < data.length; i++) {
+    var row = {};
+    for (var j = 0; j < headers.length; j++) {
+      row[headers[j]] = data[i][j];
+    }
+    rows.push(row);
+  }
+
+  return ContentService.createTextOutput(JSON.stringify(rows))
+                       .setMimeType(ContentService.MimeType.JSON);
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="guide-step">
+                    <h3>3. Deploy in Google Sheets</h3>
+                    <div class="deploy-steps">
+                        <div class="step-row">
+                            <div class="step-num">1</div>
+                            <div class="step-text">Open your sheet → <strong>Extensions → Apps Script</strong></div>
+                        </div>
+                        <div class="step-row">
+                            <div class="step-num script">2</div>
+                            <div class="step-text">Delete placeholder code, <strong>paste your script</strong> from above, click Save</div>
+                        </div>
+                        <div class="step-row">
+                            <div class="step-num deploy">3</div>
+                            <div class="step-text">Click <strong>Deploy → New deployment</strong></div>
+                        </div>
+                        <div class="step-row">
+                            <div class="step-num">4</div>
+                            <div class="step-text">Type: <strong>Web app</strong></div>
+                        </div>
+                        <div class="step-row">
+                            <div class="step-num">5</div>
+                            <div class="step-text">Who has access: <strong>"Anyone"</strong></div>
+                        </div>
+                        <div class="step-row">
+                            <div class="step-num">6</div>
+                            <div class="step-text">Click <strong>Deploy</strong>, authorize when prompted</div>
+                        </div>
+                        <div class="step-row" style="border: 1px solid var(--secondary); background: rgba(14,165,233,0.08);">
+                            <div class="step-num deploy">7</div>
+                            <div class="step-text">
+                                <strong>Copy the Web App URL</strong> shown after deployment — paste it in the field at the top of this page. Then click <strong>Test Connection</strong> to verify.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="guide-step">
+                    <h3>Syncing</h3>
+                    <ul>
+                        <li>Auto-syncs every 5 minutes</li>
+                        <li>Manual: <code>POST /admin/{business}/sync-products</code></li>
+                        <li>Offline resilient — uses last cached <code>products.json</code></li>
+                        <li>Token stored in business vault, never in config files</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Help toggle ---
+        const helpContent = document.getElementById('helpContent');
+        const helpToggle  = document.getElementById('helpToggle');
+        let helpVisible = false;
+
+        function toggleHelp() {
+            helpVisible = !helpVisible;
+            helpContent.classList.toggle('visible', helpVisible);
+            helpToggle.classList.toggle('open', helpVisible);
+        }
+
+        // --- Live code generator ---
+        const genToken = document.getElementById('genToken');
+        const genSheet = document.getElementById('genSheet');
+        const codeOutput = document.getElementById('codeOutput');
+        const copyBtn    = document.getElementById('copyBtn');
+
+        const DEFAULT_TOKEN = 'my_bakery_bot_secret_token_2026';
+        const DEFAULT_SHEET = 'Bakery Products Inventory V4';
+
+        function generateCode(token, sheetName) {
+            const t = token || DEFAULT_TOKEN;
+            const s = sheetName || DEFAULT_SHEET;
+            return `function doGet(e) {\n  var token = e.parameter.token;\n  var SECRET_TOKEN = "${t}";\n\n  if (token !== SECRET_TOKEN) {\n    return ContentService.createTextOutput(JSON.stringify({error: "Unauthorized"}))\n                         .setMimeType(ContentService.MimeType.JSON);\n  }\n\n  var sheet = SpreadsheetApp.getActiveSpreadsheet()\n                   .getSheetByName("${s}");\n\n  var data = sheet.getDataRange().getValues();\n  var headers = data[0];\n  var rows = [];\n  for (var i = 1; i < data.length; i++) {\n    var row = {};\n    for (var j = 0; j < headers.length; j++) {\n      row[headers[j]] = data[i][j];\n    }\n    rows.push(row);\n  }\n\n  return ContentService.createTextOutput(JSON.stringify(rows))\n                       .setMimeType(ContentService.MimeType.JSON);\n}`;
+        }
+
+        function updateCode() {
+            codeOutput.textContent = generateCode(genToken.value.trim(), genSheet.value.trim());
+        }
+
+        genToken.addEventListener('input', updateCode);
+        genSheet.addEventListener('input', updateCode);
+
+        function copyCode() {
+            navigator.clipboard.writeText(codeOutput.textContent).then(() => {
+                copyBtn.textContent = 'Copied!';
+                copyBtn.classList.add('copied');
+                setTimeout(() => {
+                    copyBtn.textContent = 'Copy';
+                    copyBtn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        // --- Test connection ---
+        const urlInput   = document.getElementById('appsScriptUrl');
+        const tokenInput = document.getElementById('secretToken');
+        const testBtn    = document.getElementById('testBtn');
+        const testResult = document.getElementById('testResult');
+
+        async function testConnection() {
+            const url = urlInput.value.trim();
+            const token = tokenInput.value.trim();
+
+            if (!url) {
+                testResult.className = 'test-result error';
+                testResult.textContent = 'Please enter the Apps Script URL.';
+                return;
+            }
+            if (!token) {
+                testResult.className = 'test-result error';
+                testResult.textContent = 'Please enter your secret token.';
+                return;
+            }
+
+            testResult.className = 'test-result loading';
+            testResult.textContent = 'Testing connection...';
+            testBtn.disabled = true;
+            testBtn.textContent = 'Testing...';
+
+            try {
+                const resp = await fetch(url + '?token=' + encodeURIComponent(token));
+                const data = await resp.json();
+
+                if (resp.ok && Array.isArray(data) && data.length > 0) {
+                    testResult.className = 'test-result success';
+                    testResult.textContent = '✓ Connected! Found ' + data.length + ' products. Your setup is correct — proceed to onboarding.';
+                } else if (resp.ok && Array.isArray(data) && data.length === 0) {
+                    testResult.className = 'test-result success';
+                    testResult.textContent = '✓ Connected — but your sheet is empty. Add some products and test again.';
+                } else if (data && data.error) {
+                    testResult.className = 'test-result error';
+                    testResult.textContent = '✗ ' + data.error + ' — check that your token matches the SECRET_TOKEN in the script.';
+                } else {
+                    testResult.className = 'test-result error';
+                    testResult.textContent = '✗ Unexpected response. Make sure the URL is correct and the script is deployed as a web app.';
+                }
+            } catch (err) {
+                testResult.className = 'test-result error';
+                testResult.textContent = '✗ Could not reach the endpoint. Check that the URL is correct and the script is deployed.';
+            }
+
+            testBtn.disabled = false;
+            testBtn.textContent = 'Test Connection';
+        }
+
+        // Sync generator values back to quick-connect fields for convenience
+        genToken.addEventListener('input', () => {
+            if (!tokenInput.value) tokenInput.value = genToken.value;
+        });
+        genSheet.addEventListener('input', () => {
+            // sheet name isn't needed for the connection, just the token
+        });
+    </script>
+</body>
+</html>

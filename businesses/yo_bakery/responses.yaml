@@ -1,0 +1,653 @@
+# ============================================================================
+# YoBotz Lite Responses — Navigation Guide
+# ============================================================================
+# PART A — GENERAL (shared across all flows) .......... lines 1-14
+# PART B — ORDERING & CART .............................. lines 15-51
+# PART C — BOOKING ...................................... lines 52-103
+#
+# Every key below is read at runtime. Do not remove keys without verifying
+# they are no longer referenced in smart_engine/ runtime code.
+# ============================================================================
+
+
+# ============================================================================
+# PART A — GENERAL / SHARED
+# Used by intent_router, chat_engine, and response_handler for every flow.
+# ============================================================================
+
+# --- Greetings & Goodbyes ---
+intent_greeting: "Hi there! Welcome to **{business_name}**! Ready to explore products, check your cart, or get help? Just tell me what you’d like to do—or type **quit** anytime to exit."
+
+intent_goodbye: "Thank you for visiting {business_name}! See you around, come buy anytime!🤗"
+
+intent_thanks: "You're welcome! If you need anything else, just let me know."
+
+# --- Help & Fallback (shared) ---
+intent_help: |
+  🆘 **{business_name} Help Center**
+  
+  **I can help you with:**
+  
+  🛒 **ORDERING & PRODUCTS**
+  - `buy` or `show products` – Browse our menu
+  - `search [name]` – Find a specific product fast
+  - `view cart` – See what's in your cart
+  - `add [product]` – Add items to cart
+  - `edit cart` – Remove or change quantities
+  - `confirm order` – Finalize your purchase
+  
+  📅 **BOOKING SYSTEM**
+  - `book` or `make appointment` – Start a new booking
+  - `my bookings` – View your upcoming appointments
+  - `cancel booking` – Cancel an existing booking
+  
+  ℹ️ **BUSINESS INFO**
+  - `hours` – Our opening hours
+  - `location` – Find our store
+  - `contact` – Get in touch
+  - `about` – Learn our story
+  - `faq` – Common questions
+  
+  🔄 **SESSION CONTROL**
+  - `quit` or `exit` – End current flow & start fresh
+  - `back` – Go to previous step
+  - `help` – Show this message again
+  
+  🤖 **BOT INFO**
+  - `are you human?` – Learn about me
+
+  💡 **Quick Tips:**
+  - I can remember your cart between messages
+  - Bookings can be made for future dates only
+  - You can edit your cart anytime before confirming
+  
+  **Need something specific?** Just ask! I'm here to make your experience at {business_name} smooth and enjoyable. 😊
+
+intent_fallback: |
+  **Let me help you get to the right place!**
+  
+  **I think you might be looking for:**
+  
+  🛒 **ORDERING & PRODUCTS**
+  - "show products" or "buy"
+  - "search chocolate cake" or "find croissant"
+  - "what's in my cart?"
+  - "add chocolate cake"
+  
+  📅 **BOOKINGS & APPOINTMENTS**  
+  - "make a booking"
+  - "view my bookings"
+  - "cancel booking"
+  
+  ℹ️ **INFORMATION**
+  - "hours" or "open now?"
+  - "location" or "address"
+  - "contact" or "phone number"
+  - "about" or "your story"
+  
+  **💡 Quick Fixes:**
+  1. Be more specific (e.g., "book a cake tasting" or "book" in short)
+  2. Use keywords from the list above
+  3. Type `help` for complete guide
+  
+  **Example:** "I want to order" → "Can I see your pastry menu?"
+
+fallback: "Hello! How can I help you today?"
+
+error_fallback: "⚠️ Something went wrong. Try again or type 'view cart' to check your cart."
+
+# --- Business Information ---
+intent_business_hours: |
+  {is_open_now}
+  
+  📅 **Our Business Hours:**
+  
+  {business_hours}
+  
+  💡 **Need to book?** Just say "book" or "make a booking"!
+
+intent_location: |
+  📍 **Find Us:**
+  
+  **{business_name}**
+  123 Sweet Treats Avenue
+  Bakery District, BD 10101
+  
+  **📍 Get Directions:** [Google Maps](https://maps.google.com)
+  
+  **Parking:** Free street parking & lot behind building
+  
+  **Public Transport:** Bus #7, #12, #45 stop nearby
+  
+  {is_open_now}
+
+intent_contact: |
+  📞 **Contact Us:**
+  
+  **Phone:** (555) 123-BAKE (2253)
+  **Email:** hello@{business_name}.com
+  **Hours:** {business_hours}
+  
+  **Social Media:**
+  - Instagram: @{business_name}
+  - Facebook: /{business_name}
+  
+  **💬 Live Support:** You're talking to me! I can help with bookings, orders, and questions right now.
+
+intent_about: |
+  🏆 **Our Story:**
+  
+  Founded in 2015, **{business_name}** started as a home kitchen passion project and grew into the community's favorite artisanal bakery.
+  
+  **✨ What Makes Us Special:**
+  • **Family-Owned** – Every batch made with care
+  • **100% Natural** – No artificial ingredients
+  • **Daily Fresh** – Baked morning of sale
+  • **Custom Everything** – Your vision, our creation
+  
+  **👨‍🍳 Meet Maria:** Head baker with 20+ years experience, trained in Paris & Tokyo.
+  
+  **🌟 Community Love:** Voted "Best Bakery" 3 years running!
+
+intent_faq: |
+  **Common Questions:**
+  
+  **Q: How far in advance should I order?**
+  A: 24 hours for daily items, 48+ hours for custom cakes, 1+ week for weddings/events.
+  
+  **Q: Do you accommodate dietary restrictions?**
+  A: Yes! Gluten-free, vegan, nut-free options available. Please mention when ordering.
+  
+  **Q: What's your cancellation policy?**
+  A: Full refund with 24+ hour notice. 50% refund within 24 hours. No refund for same-day cancellations.
+  
+  **Q: Can I modify my order after placing it?**
+  A: Changes allowed up to 24 hours before pickup/delivery. Last-minute changes may incur fees.
+  
+  **Q: Do you offer payment plans for large orders?**
+  A: Yes! 50% deposit to book, balance due 1 week before event.
+  
+  💡 **More questions?** Just ask or say **contact** to reach our team directly!
+
+intent_human_check: |
+  **Great question!**
+  
+  I'm **{business_name}'s AI assistant** - a smart chatbot powered by artificial intelligence! 
+  
+  **What I am:**
+  ✅ **Always available** - 24/7, no breaks!
+  ✅ **Lightning fast** - Instant responses
+  ✅ **Multitasking master** - Help multiple customers at once
+  ✅ **Never forgets** - Remember your preferences
+  ✅ **Consistently cheerful** - Same great service every time
+  
+  **What I can do:**
+  • Answer questions about our business
+  • Help you book appointments  
+  • Assist with orders and products
+  • Provide information instantly
+  
+  **When you might want a human:**
+  • Complex custom requests
+  • Emergency situations
+  • Billing/account issues
+  
+  **💡 Pro tip:** I'm actually pretty good! Try me with "book", "hours", or "pricing"!
+  
+  **So... AI or human?** I'm your friendly AI helper! How can I assist you today? 😊
+
+
+# ============================================================================
+# PART B — ORDERING & CART
+# Used by ordering_manager.py (gated by enable_ordering_system).
+# Includes the internal reservation flow used when enable_reservation_mode.
+# ============================================================================
+
+# --- Browsing & Selection ---
+cart_empty: "🛒 Your cart is empty. Type 'buy' to see our products and add something!"
+
+no_products_available: "Sorry, no products are available at the moment."
+
+no_categories_available: "Sorry, no categories are available at the moment."
+
+category_menu_prompt: |
+  🍽️ Please select a category:
+  {categories}
+  Type the **category name** or **number** to view products.
+
+product_menu_prompt: |
+  🍰 Browse our selection:
+  {menu}
+  Select a **number** to view details, or type the product name.
+
+variant_selection_prompt: |
+  📦 **{product_name}** — select a variant:
+  {menu}
+  Type the variant **number**, or 'back' to return.
+
+add_more_prompt: "Would you like to add more items? (yes/no)"
+
+category_selection_fallback: "I didn't recognize that category. Please select from the menu or type its number."
+
+product_selection_fallback: "I didn't recognize that. Pick a number from the menu, type a product name, or use **search [keyword]** to find something specific."
+
+more_items_fallback: "Reply with **yes** to add more items or **no** to proceed to checkout."
+
+# --- Cart Summary & Checkout ---
+cart_summary: |
+  Here is your current cart:
+  {summary}
+
+  You can confirm your order, cancel it, or edit your cart.
+  Reply with **confirm**, **cancel**, or **edit** to proceed.
+
+confirmation_fallback: "Please reply with **confirm**, **cancel**, or **edit**."
+
+order_confirmed: "✅ Your order has been confirmed! Thank you for your purchase."
+
+order_canceled: "❌ Your order has been canceled."
+
+# --- Cart Editing ---
+edit_cart_prompt: |
+  ✏️ You're now editing your cart:
+  {items}
+
+  Examples:
+  - remove 1 → remove by number
+  - remove chocolate → remove by name
+  - change 2 to 3 → update quantity by number
+  - set blueberry muffin 4 → update quantity by name
+  - clear cart → empty your cart
+
+  Once you're done editing, your updated cart will be shown automatically.
+
+item_not_found: "I couldn't find that item in your cart. Please check the number or name."
+
+item_removed: "✅ Removed {item}"
+
+quantity_updated: "✅ Updated {item} quantity to {qty}"
+
+cart_cleared: "🧹 Cart cleared successfully."
+
+empty_after_edit: |
+  🧹 Your cart is now empty.
+
+  What would you like to do next?
+  - Type **buy** to add products
+  - Type **help** for options
+
+# --- Reservation Flow (internal, used when enable_reservation_mode) ---
+enter_reservation_datetime: |
+  📅 **Select Pickup Day**
+
+  You can:
+  • Type a number (e.g., '1', '2', '3')
+  • Type a day name (e.g., 'tomorrow', 'friday')
+
+day_selected_prompt: |
+  📅 **Selected:** {day_display}
+
+  **Business Hours:**
+  {business_hours}
+
+  Please enter your preferred time (e.g., '14:00' or '2pm'):
+
+invalid_reservation_datetime: |
+  ❌ **Could not understand the date**
+
+  Please:
+  • Type a number (1, 2, 3...) to select a day
+  • Type a day name (e.g., 'tomorrow', 'friday')
+
+time_input_prompt: |
+  ❌ {error_message}
+
+  **Business Hours:**
+  {business_hours}
+
+  Please enter your preferred time (e.g., '14:00' or '2pm'):
+
+cart_summary_reservation: |
+  Here is your reservation summary:
+
+  {summary}
+
+  💬 **Reply:** `yes` to confirm, `no` to cancel, or `edit` to modify your reservation.
+
+reservation_confirmed_with_time: |
+  ✅ **Reservation Confirmed!**
+
+  **Date & Time:** {datetime}
+  **Items:**
+  {summary}
+
+  Thank you for your reservation! We're looking forward to serving you.
+
+  💡 **Reminder:** Please arrive on time. Your reservation will be held for {timeout} minutes.
+
+reservation_confirmed: |
+  ✅ **Reservation Confirmed!**
+
+  Thank you for your reservation! We're looking forward to serving you.
+
+# --- Session Control ---
+quit_prompt: "Are you sure you want to cancel your order? (yes/no)"
+
+quit_continue: "Okay, continuing with your order."
+
+current_state_fallback: "How can I help with your order?"
+
+
+# ============================================================================
+# PART C — BOOKING
+# Used by booking_manager.py (gated by enable_booking_system).
+# ============================================================================
+
+# --- Booking Flow ---
+select_service_prompt: |
+  📅 Let's book your service! Here's what we offer:
+  
+  {menu}
+  
+  How to choose:
+  - Type the number (e.g., 1)
+  - Or type the service name
+  - Type help if you're not sure
+  - Type cancel to exit booking
+
+invalid_service_selection: |
+  ❌ **Service not found**
+  
+  I couldn't find that service in our options.
+  
+  **Please choose from the list above** or type `show services` to see options again.
+
+no_services_available: "Sorry, no booking services are available at the moment."
+
+enter_party_size: "👥 How many people are in your party?"
+
+enter_topic: "💬 What topic would you like to discuss in your consultation?"
+
+enter_datetime: |
+  📅 **Please enter your preferred date and time**
+  
+  **Format:** YYYY-MM-DD HH:MM
+  
+  **Example:** 2024-01-15 14:30
+  
+  💡 Make sure to choose a future date and time.
+
+invalid_time_format: |
+  ❌ **Invalid time format**
+  
+  Please use the format: **YYYY-MM-DD HH:MM**
+  
+  **Example:** 2024-01-15 14:30
+
+past_date_error: "❌ Please choose a future date and time. You cannot book in the past."
+
+business_hours_closed_day: |
+  ❌ **We're closed on {day_name}**
+  
+  **Our business hours are:**
+  {business_hours}
+  
+  Please choose another day.
+
+business_hours_outside_hours: |
+  ❌ **That time is outside our business hours**
+  
+  **Our business hours are:**
+  {business_hours}
+  
+  Please choose another time within our operating hours.
+
+enter_name: "👤 Please enter your name:"
+
+enter_special_requests: |
+  💫 **Any special requests?**
+  
+  - Dietary restrictions
+  - Accessibility needs  
+  - Special occasions
+  - Other preferences
+  
+  Type `none` or `skip` if you don't have any special requests.
+
+# --- Booking Confirmation ---
+confirm_booking_prompt: |
+  ✅ **Please confirm your booking:**
+  
+  **Service:** {service_name}
+  **Date & Time:** {datetime}
+  **Name:** {customer_name}
+  **Party Size:** {party_size}
+  {special_requests_line}
+  
+  💡 **Reply:** `yes` to confirm or `no` to cancel
+
+booking_confirmed: |
+  ✅ **Booking Confirmed!**
+  
+  **Service:** {service_name}
+  **Date & Time:** {datetime}
+  **Party Size:** {party_size}
+  
+  Thank you for your booking! We're looking forward to serving you.
+
+booking_canceled: "✅ Your booking has been canceled."
+
+invalid_confirmation: |
+  ❌ **I didn't understand your reply**
+
+  Please reply with `yes` to confirm the booking or `no` to cancel.
+
+slot_locked: "Sorry, that time slot is no longer available. Please choose another time."
+
+# --- Booking Management ---
+bookings_list: |
+  📅 **Your Bookings:**
+  
+  {bookings_list}
+  
+  💡 **To cancel a booking:**
+  • Type **cancel booking** followed by the booking number or ID
+  • Example: `cancel booking 1` or `cancel booking abc12345`
+  
+  • Type **book** to make a new booking
+  • Type **help** for assistance
+
+cancellation_prompt: |
+  📅 **Your Bookings:**
+  
+  {bookings_list}
+  
+  **To cancel a booking:**
+  • Reply with the booking ID (e.g., `b8067ae6`)
+  • Or type the number (e.g., `1`)
+  • Type `cancel` to exit
+  
+  💡 Which booking would you like to cancel?
+
+confirm_cancellation: |
+  **Confirm Cancellation**
+  
+  **Service:** {service_name}
+  **Date & Time:** {datetime}
+  **Booking ID:** {booking_id}
+  
+  ⚠️ **Are you sure you want to cancel this booking?**
+  
+  💡 Reply: `yes` to confirm cancellation or `no` to keep the booking
+
+cancellation_successful: |
+  ✅ **Booking Cancelled Successfully!**
+
+  Your booking has been cancelled. We hope to serve you another time!
+
+cancellation_canceled: |
+  ✅ **Cancellation Canceled**
+  
+  Your booking remains confirmed. We look forward to serving you!
+
+cancellation_error: |
+  ❌ **Cancellation Error**
+  
+  There was an error processing your cancellation. Please try again.
+
+no_bookings_found: |
+  📅 **No Bookings Found**
+  
+  You don't have any existing bookings. 
+  
+  Type **book** to create a new booking!
+
+no_booking_to_cancel: |
+  ❌ **No Booking Selected**
+  
+  Please select a booking to cancel first.
+
+booking_not_found: |
+  ❌ **Booking Not Found**
+  
+  I couldn't find the booking you're looking for.
+  
+  Please check the booking ID and try again.
+
+invalid_booking_selection: |
+  ❌ **Invalid Selection**
+  
+  Please choose a number between 1 and {max_number}.
+  
+  Type `my bookings` to see your bookings list again.
+
+selection_error: |
+  ❌ **Selection Error**
+  
+  There was an error processing your selection. Please try again.
+
+booking_management_error: |
+  ❌ **Booking Management Error**
+  
+  There was an error loading your bookings. Please try again.
+
+# --- Booking Fallbacks (per-step, context-aware) ---
+fallback_service_selection: |
+  🤔 **I didn't understand your selection**
+  
+  **Right now I'm waiting for you to choose a service.**
+  
+  💡 **Try one of these:**
+  - Type a **number** (1, 2, 3...)
+  - Type the **service name** exactly
+  - Type `show services` to see options again
+  - Type `help` for detailed guidance
+  - Type `cancel` to exit booking
+
+fallback_party_size: |
+  🤔 **I need to know your party size**
+  
+  **Please enter a number** (e.g., 2, 4, 6)
+  
+  💡 **Examples:**
+  - "2" for 2 people
+  - "4 guests"
+  - "party of 6"
+
+fallback_topic: |
+  🤔 **What topic would you like to discuss?**
+  
+  **Please describe your consultation topic**
+  
+  💡 **Examples:**
+  - "Wedding cake design"
+  - "Dietary restrictions"
+  - "Custom cake order"
+
+fallback_datetime_selection: |
+  🤔 **I need your preferred date and time**
+  
+  **Please use format:** YYYY-MM-DD HH:MM
+  
+  **Examples:**
+  - "2024-01-15 14:30"
+  - "Tomorrow 10:00 AM"
+  - "Next Friday at 3 PM"
+  
+  💡 **Need help?** Type `help` for detailed time format guidance
+
+fallback_name_collection: |
+  🤔 **I need your name for the booking**
+  
+  **Please enter your full name**
+  
+  💡 **Examples:**
+  - "John Smith"
+  - "Jane Doe"
+  - Just type your name as you'd like it to appear
+
+fallback_special_requests: |
+  🤔 **Any special requests?**
+  
+  **Please describe any special needs or type `none` to skip**
+  
+  💡 **Examples:**
+  - "Gluten-free options needed"
+  - "Birthday message on cake"
+  - "Allergy to nuts"
+  - "none" (to skip)
+
+fallback_confirmation: |
+  🤔 **I didn't understand your confirmation**
+  
+  **Please reply with:**
+  - `yes` or `confirm` to book your appointment
+  - `no` or `cancel` to cancel the booking
+  
+  💡 **Need to review?** Type `show booking` to see your details again
+
+general_fallback: |
+  🤔 **I'm not sure what you'd like to do**
+  
+  **You can always:**
+  - Type `help` for guidance
+  - Type `back` to go to previous step
+  - Type `restart` to start over
+  - Type `cancel` to exit booking
+  - Type `show options` to see current choices
+  
+  💡 **Stuck?** Contact us at {contact_phone} for immediate assistance
+
+# --- Navigation & Recovery ---
+show_booking: |
+  📋 **Your current booking details:**
+  
+  **Service:** {service_name}
+  **Date & Time:** {datetime}
+  **Name:** {customer_name}
+  {special_requests_line}
+  
+  💡 **Next step:** {next_step_instruction}
+
+cannot_go_back: "🔄 Can't go back further. You're at the first step of the booking process."
+
+booking_help: |
+  💡 **Booking Help**
+  
+  **During booking, you can always:**
+  - Type `back` to go to previous step
+  - Type `restart` to start over  
+  - Type `cancel` to exit booking
+  - Type `help` for this message
+  
+  **Need human help?** Contact us at {contact_phone} or {contact_email}
+
+emergency_exit: |
+  🆘 **Emergency Exit**
+  
+  Your booking has been canceled and all progress has been cleared.
+  
+  **What would you like to do next?**
+  - Type `buy` to browse products
+  - Type `help` for general assistance
+  - Contact us at {contact_phone} for immediate help

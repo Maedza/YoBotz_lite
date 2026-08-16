@@ -1,0 +1,44 @@
+display_name: "Yo Bakery"
+business_category: "bakery"
+
+features:
+  enable_ordering_system: true
+  enable_booking_system: true
+  enable_reservation_mode: true
+
+timezone: "America/New_York"
+
+business_hours:
+  monday:
+    - open: "08:00"
+      close: "18:00"
+  tuesday:
+    - open: "08:00"
+      close: "18:00"
+  wednesday:
+    - open: "08:00"
+      close: "18:00"
+  thursday:
+    - open: "08:00"
+      close: "20:00"
+  friday:
+    - open: "08:00"
+      close: "20:00"
+  saturday:
+    - open: "09:00"
+      close: "17:00"
+  sunday:
+    - open: "10:00"
+      close: "16:00"
+
+reservation:
+  max_lead_time_days: 30
+  min_notice_hours: 2
+  confirmation_timeout_minutes: 15
+  max_duration_hours: 4
+  allow_off_hours: false
+
+contact:
+  address: "Your address"
+  phone: "Your phone number"
+  email: "hello@yobakery.com"

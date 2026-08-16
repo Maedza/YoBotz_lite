@@ -1,0 +1,61 @@
+# Internal agent data
+.codebuddy/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ignore Python bytecode files
+*.pyc
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Byte-compiled / optimized / DLL files
+*.so
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Pytest
+.pytest_cache/
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+*.icloud
+
+# Logs and local env
+*.log
+.env
+*.sqlite
+*.sqlite3
+
+# Ignore session files
+sessions_yo_bakery.json
+sessions_yo_bakery.json*
+data/sessions/sessions_yo_bakery.json*
+*.session
+
+# Ignore per-business secrets
+businesses/**/.env
+
+# Ignore logs
+logs/
+*.log
+
+# Ignore the entire session folder
+data/sessions/
+
+# Runtime data — auto-created on startup
+data/notification_chat_ids.json
+data/user_mappings_fallback.json
+

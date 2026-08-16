@@ -1,0 +1,29 @@
+# Unified Messaging Gateway Configuration
+
+# Server settings
+server:
+  port: 8000
+  log_level: INFO
+  default_business: yo_bakery
+
+# Redis configuration
+redis:
+  url: redis://localhost:6379/0
+
+# Delivery tracking configuration
+delivery:
+  max_attempts: 3
+  base_delay: 2.0
+  max_delay: 60.0
+
+# Platform configurations
+platforms:
+  # Telegram configuration
+  telegram:
+    enabled: true
+    bot_token: ${TELEGRAM_BOT_TOKEN}
+    webhook_url: ${TELEGRAM_WEBHOOK_URL}
+    webhook_secret: ${TELEGRAM_WEBHOOK_SECRET}
+    mode: webhook  # webhook | polling
+    rate_limit_per_second: 20.0
+    rate_limit_burst: 50

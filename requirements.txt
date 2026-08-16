@@ -1,0 +1,28 @@
+# YoBotz Beta v2 Requirements
+# Core dependencies for the smart engine
+
+# Core / integrations
+fastapi>=0.95.0
+uvicorn>=0.20.0
+python-dotenv>=1.0.0
+pyyaml>=6.0.0
+requests>=2.31.0
+huggingface-hub>=0.15.0
+pytz>=2023.3
+slowapi>=0.1.4
+aiohttp>=3.9.0
+
+# Data validation
+pydantic>=2.0.0
+
+# Optional extras used by FastAPI for form parsing
+python-multipart>=0.0.6
+
+# LLM Integration (optional - for AI-powered response generation)
+openai>=1.0.0
+anthropic>=0.20.0
+
+# Development / testing
+pytest>=7.0.0
+pytest-asyncio>=0.21.0
+

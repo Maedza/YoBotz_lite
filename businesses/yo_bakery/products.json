@@ -1,0 +1,138 @@
+[
+  {
+    "name": "Sourdough Bread",
+    "price": 5.99,
+    "description": "Traditional sourdough bread made with 100-year-old starter",
+    "category": "Breads",
+    "available": true,
+    "bookable": false,
+    "max_quantity": 10
+  },
+  {
+    "name": "Whole Wheat Bread",
+    "price": 4.99,
+    "description": "Healthy whole wheat bread with nuts and seeds",
+    "category": "Breads",
+    "available": true,
+    "bookable": false,
+    "max_quantity": 10
+  },
+  {
+    "name": "Baguette",
+    "price": 3.99,
+    "description": "Classic French baguette with crispy crust",
+    "category": "Breads",
+    "available": true,
+    "bookable": false,
+    "max_quantity": 15
+  },
+  {
+    "name": "Chocolate Croissant",
+    "price": 3.50,
+    "description": "Buttery, flaky croissant filled with rich chocolate",
+    "category": "Pastries",
+    "available": true,
+    "bookable": false,
+    "max_quantity": 20
+  },
+  {
+    "name": "Almond Croissant",
+    "price": 3.75,
+    "description": "Flaky croissant with almond cream filling",
+    "category": "Pastries",
+    "available": true,
+    "bookable": false,
+    "max_quantity": 18
+  },
+  {
+    "name": "Pain au Chocolat",
+    "price": 3.25,
+    "description": "French chocolate pastry",
+    "category": "Pastries",
+    "available": true,
+    "bookable": false,
+    "max_quantity": 20
+  },
+  {
+    "name": "Blueberry Muffin",
+    "price": 2.75,
+    "description": "Moist muffin bursting with fresh blueberries",
+    "category": "Muffins",
+    "available": true,
+    "bookable": false,
+    "max_quantity": 15
+  },
+  {
+    "name": "Chocolate Chip Muffin",
+    "price": 2.75,
+    "description": "Classic chocolate chip muffin with extra chips",
+    "category": "Muffins",
+    "available": true,
+    "bookable": false,
+    "max_quantity": 15
+  },
+  {
+    "name": "Banana Nut Muffin",
+    "price": 2.99,
+    "description": "Banana muffin topped with crunchy walnuts",
+    "category": "Muffins",
+    "available": true,
+    "bookable": false,
+    "max_quantity": 12
+  },
+  {
+    "name": "Custom Birthday Cake",
+    "price": 45.00,
+    "description": "Beautiful custom cake for birthdays and celebrations",
+    "category": "Cakes",
+    "available": true,
+    "bookable": true,
+    "duration_minutes": 1440,
+    "max_quantity": 1
+  },
+  {
+    "name": "Chocolate Layer Cake",
+    "price": 35.00,
+    "description": "Triple-layer chocolate cake with ganache",
+    "category": "Cakes",
+    "available": true,
+    "bookable": false,
+    "max_quantity": 3
+  },
+  {
+    "name": "Red Velvet Cake",
+    "price": 32.00,
+    "description": "Classic red velvet cake with cream cheese frosting",
+    "category": "Cakes",
+    "available": true,
+    "bookable": false,
+    "max_quantity": 3
+  },
+  {
+    "name": "Espresso",
+    "price": 3.50,
+    "description": "Rich Italian espresso shot",
+    "category": "Beverages",
+    "available": true,
+    "bookable": false,
+    "max_quantity": 50
+  },
+  {
+    "name": "Cappuccino",
+    "price": 4.50,
+    "description": "Creamy cappuccino with foam art",
+    "category": "Beverages",
+    "available": true,
+    "bookable": false,
+    "max_quantity": 50
+  },
+  {
+    "name": "Fresh Orange Juice",
+    "price": 4.00,
+    "description": "Freshly squeezed orange juice",
+    "category": "Beverages",
+    "available": true,
+    "bookable": false,
+    "max_quantity": 30
+  }
+]

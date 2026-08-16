@@ -1,0 +1,2301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YoBotz | Setup Your Business</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #0ea5e9;
+            --accent: #22c55e;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --darker: #0f172a;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --border: rgba(255,255,255,0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--darker);
+            color: var(--light);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--light);
+            text-decoration: none;
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Progress */
+        .progress-container {
+            background: var(--dark);
+            padding: 0.75rem 2rem 0;
+            position: fixed;
+            top: 57px;
+            width: 100%;
+            z-index: 99;
+        }
+
+        .progress-bar {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            position: relative;
+        }
+
+        .progress-step::before {
+            content: '';
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            right: -50%;
+            height: 2px;
+            background: var(--border);
+        }
+
+        .progress-step:last-child::before {
+            display: none;
+        }
+
+        .progress-step.active::before,
+        .progress-step.completed::before {
+            background: var(--primary);
+        }
+
+        .step-circle {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.75rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .progress-step.active .step-circle {
+            background: var(--primary);
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.5);
+        }
+
+        .progress-step.completed .step-circle {
+            background: var(--accent);
+        }
+
+        .step-label {
+            font-size: 0.625rem;
+            color: var(--gray);
+            margin-top: 0.25rem;
+            text-align: center;
+        }
+
+        .progress-step.active .step-label {
+            color: var(--light);
+        }
+
+        .progress-track {
+            height: 3px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 13rem 2rem 4rem;
+        }
+
+        .step-content {
+            display: none;
+        }
+
+        .step-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--gray);
+            margin-bottom: 2rem;
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        label span {
+            color: var(--gray);
+            font-weight: 400;
+            font-size: 0.875rem;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: var(--dark);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--light);
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: var(--gray);
+        }
+
+        .hint {
+            font-size: 0.75rem;
+            color: var(--gray);
+            margin-top: 0.25rem;
+        }
+
+        .error {
+            color: var(--danger);
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .form-group.has-error input,
+        .form-group.has-error select {
+            border-color: var(--danger);
+        }
+
+        .form-group.has-error .error {
+            display: block;
+        }
+
+        /* Feature Toggle */
+        .feature-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .feature-item {
+            background: var(--dark);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            transition: border-color 0.2s;
+            cursor: pointer;
+        }
+
+        .feature-item:hover {
+            border-color: var(--primary);
+        }
+
+        .feature-item.enabled {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .feature-toggle {
+            position: relative;
+            width: 48px;
+            height: 26px;
+            flex-shrink: 0;
+        }
+
+        .feature-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--border);
+            border-radius: 26px;
+            transition: 0.3s;
+        }
+
+        .toggle-slider::before {
+            content: '';
+            position: absolute;
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        .feature-toggle input:checked + .toggle-slider {
+            background: var(--primary);
+        }
+
+        .feature-toggle input:checked + .toggle-slider::before {
+            transform: translateX(22px);
+        }
+
+        .feature-info {
+            flex: 1;
+        }
+
+        .feature-info h3 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .feature-info p {
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+
+        .feature-info .tag {
+            display: inline-block;
+            background: var(--warning);
+            color: var(--darker);
+            font-size: 0.625rem;
+            font-weight: 600;
+            padding: 0.125rem 0.5rem;
+            border-radius: 4px;
+            margin-left: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        /* Feature Sub-options */
+        .feature-sub-options {
+            margin-top: 1rem;
+            padding-left: 3.5rem;
+        }
+
+        .sub-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .sub-option:hover {
+            background: rgba(0,0,0,0.3);
+        }
+
+        .sub-option input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+        }
+
+        .sub-option label {
+            margin: 0;
+            font-size: 0.875rem;
+            cursor: pointer;
+        }
+
+        .sub-option-desc {
+            font-size: 0.75rem;
+            color: var(--gray);
+            margin-top: 0.25rem;
+        }
+
+        .feature-item.has-sub-options {
+            flex-direction: column;
+        }
+
+        /* Save indicator */
+        .save-indicator {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            background: var(--accent);
+            color: var(--darker);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 200;
+        }
+
+        .save-indicator.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Restore Banner */
+        .restore-banner {
+            max-width: 1000px;
+            margin: 0 auto 1rem;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.875rem;
+        }
+
+        .restore-banner span {
+            color: var(--light);
+        }
+
+        /* Sub option selected state */
+        .sub-option.selected {
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid var(--primary);
+        }
+
+        /* Navigation */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn {
+            padding: 0.875rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--dark);
+            color: var(--light);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Loading */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 4rem;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Success */
+        .success-page {
+            text-align: center;
+            padding: 4rem 0;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 2rem;
+        }
+
+        .success-page h1 {
+            margin-bottom: 1rem;
+        }
+
+        .success-page > p {
+            color: var(--gray);
+            margin-bottom: 2rem;
+        }
+
+        /* Success Summary */
+        .success-summary {
+            background: var(--dark);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: left;
+            margin-bottom: 2rem;
+        }
+
+        .success-summary h4 {
+            color: var(--gray);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .summary-label {
+            color: var(--gray);
+        }
+
+        .summary-value {
+            font-weight: 500;
+        }
+
+        .summary-value.enabled {
+            color: var(--accent);
+        }
+
+        .summary-value.disabled {
+            color: var(--gray);
+        }
+
+        /* Next Steps */
+        .next-steps {
+            background: var(--dark);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: left;
+            margin-bottom: 2rem;
+        }
+
+        .next-steps h3 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: var(--light);
+        }
+
+        .step-item {
+            display: flex;
+            gap: 1rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .step-item:last-child {
+            border-bottom: none;
+        }
+
+        .step-number {
+            width: 28px;
+            height: 28px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.875rem;
+            flex-shrink: 0;
+        }
+
+        .step-text {
+            flex: 1;
+        }
+
+        .step-text strong {
+            font-size: 0.875rem;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .step-text p {
+            font-size: 0.75rem;
+            color: var(--gray);
+            margin: 0;
+        }
+
+        /* File List */
+        .file-list {
+            background: var(--dark);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: left;
+            margin: 2rem 0;
+        }
+
+        .file-list h4 {
+            margin-bottom: 1rem;
+            color: var(--gray);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+        }
+
+        .file-list ul {
+            list-style: none;
+        }
+
+        .file-list li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .file-list li::before {
+            content: '📄';
+        }
+
+        /* Preview */
+        .preview-section {
+            margin-top: 2rem;
+        }
+
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .ai-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.375rem 0.75rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .ai-badge .sparkle {
+            font-size: 0.875rem;
+        }
+
+        .preview-toggle {
+            background: var(--dark);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .preview-toggle:hover {
+            border-color: var(--primary);
+        }
+
+        .preview-files {
+            display: none;
+        }
+
+        .preview-files.show {
+            display: block;
+        }
+
+        .preview-file {
+            background: var(--dark);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .preview-file-header {
+            padding: 0.75rem 1rem;
+            background: rgba(255,255,255,0.03);
+            font-weight: 500;
+            font-size: 0.875rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .preview-file-content {
+            padding: 1rem;
+            font-family: monospace;
+            font-size: 0.75rem;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+            color: var(--gray);
+        }
+
+        /* Smart Description Quiz */
+        .description-quiz {
+            margin-top: 1rem;
+        }
+
+        .quiz-question {
+            margin-bottom: 1.25rem;
+        }
+
+        .quiz-question label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .quiz-hint {
+            font-size: 0.75rem;
+            color: var(--gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .quiz-option {
+            padding: 0.5rem 1rem;
+            background: var(--dark);
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .quiz-option.selected {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .quiz-text-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: var(--dark);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            color: var(--light);
+            font-size: 0.875rem;
+        }
+
+        .quiz-text-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .generated-preview {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid var(--accent);
+            border-radius: 8px;
+        }
+
+        .generated-preview p {
+            font-style: italic;
+            color: var(--accent);
+            font-size: 0.875rem;
+        }
+
+        .generated-preview .edit-link {
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--gray);
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .generated-preview .edit-link:hover {
+            color: var(--light);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .progress-steps {
+                gap: 0.5rem;
+            }
+            .step-label {
+                font-size: 0.625rem;
+            }
+            h1 { font-size: 1.5rem; }
+        }
+
+        /* ── Sheet Setup Inline ── */
+        .sheet-setup-block {
+            display: none; margin-top: 1rem; padding: 1.25rem;
+            background: rgba(15,23,42,0.5); border: 1px solid var(--border);
+            border-radius: 10px;
+        }
+        .sheet-setup-block.visible { display: block; animation: fadeIn 0.3s ease; }
+
+        .sheet-test-result {
+            margin-top: 0.75rem; padding: 0.6rem 0.75rem; border-radius: 6px;
+            font-size: 0.75rem; display: none;
+        }
+        .sheet-test-result.success { display: block; background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.25); color: var(--accent); }
+        .sheet-test-result.error   { display: block; background: rgba(239,68,68,0.1);  border: 1px solid rgba(239,68,68,0.25);  color: var(--danger); }
+        .sheet-test-result.loading { display: block; background: rgba(99,102,241,0.1);  border: 1px solid rgba(99,102,241,0.25);  color: var(--primary); }
+
+        .sheet-help-toggle {
+            display: inline-flex; align-items: center; gap: 4px;
+            color: var(--secondary); cursor: pointer; font-size: 0.75rem;
+            background: none; border: none; padding: 4px 0; margin-left: 8px;
+        }
+        .sheet-help-toggle:hover { color: var(--primary); }
+        .sheet-help-toggle .arrow { transition: transform 0.2s; font-size: 9px; }
+        .sheet-help-toggle.open .arrow { transform: rotate(90deg); }
+
+        .sheet-help-content {
+            display: none; margin-top: 1rem; padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+        .sheet-help-content.visible { display: block; }
+
+        .sheet-help-step {
+            background: rgba(30,41,59,0.4); border: 1px solid var(--border);
+            border-radius: 8px; padding: 1rem; margin-bottom: 0.75rem;
+        }
+        .sheet-help-step h4 { font-size: 0.85rem; margin-bottom: 0.5rem; color: var(--light); }
+
+        .sheet-gen-row { display: flex; gap: 0.75rem; margin-bottom: 0.75rem; flex-wrap: wrap; }
+        .sheet-gen-field { flex: 1; min-width: 180px; }
+        .sheet-gen-field label { font-size: 0.75rem; margin-bottom: 3px; }
+        .sheet-gen-field input {
+            padding: 0.5rem 0.6rem; font-size: 0.8rem;
+            width: 100%; background: rgba(15,23,42,0.5);
+            border: 1px solid var(--border); border-radius: 6px; color: var(--light);
+        }
+        .sheet-gen-field input:focus { outline: none; border-color: var(--primary); }
+        .sheet-gen-field .hint { font-size: 0.65rem; color: var(--gray); margin-top: 2px; }
+
+        .sheet-code-wrap { position: relative; margin: 0.5rem 0; }
+        .sheet-code-wrap pre {
+            background: var(--darker); border: 1px solid var(--border);
+            border-radius: 6px; padding: 0.75rem; overflow-x: auto;
+            font-size: 11px; line-height: 1.45; margin: 0;
+        }
+        .sheet-code-wrap pre code { color: #a5b4fc; background: none !important; padding: 0 !important; }
+        .sheet-copy-btn {
+            position: absolute; top: 6px; right: 6px; z-index: 2;
+            background: rgba(99,102,241,0.2); color: var(--light);
+            border: 1px solid rgba(99,102,241,0.4); padding: 3px 10px;
+            border-radius: 5px; cursor: pointer; font-size: 11px; font-weight: 600;
+            transition: all 0.2s;
+        }
+        .sheet-copy-btn:hover { background: rgba(99,102,241,0.35); }
+        .sheet-copy-btn.copied { background: var(--accent); border-color: var(--accent); }
+
+        .sheet-deploy-row {
+            display: flex; gap: 8px; align-items: flex-start; margin-bottom: 6px;
+            padding: 6px 8px; background: rgba(15,23,42,0.25);
+            border-radius: 6px; border: 1px solid rgba(255,255,255,0.04); font-size: 0.75rem;
+        }
+        .sheet-deploy-num {
+            background: var(--primary); color: white; border-radius: 50%;
+            width: 22px; height: 22px; display: flex; align-items: center;
+            justify-content: center; font-weight: 700; flex-shrink: 0; font-size: 11px;
+        }
+        .sheet-deploy-num.script { background: var(--warning); }
+        .sheet-deploy-num.deploy { background: var(--secondary); }
+        .sheet-deploy-text { line-height: 1.4; }
+
+        .sheet-col-table { width: 100%; border-collapse: collapse; margin: 0.5rem 0; font-size: 0.75rem; }
+        .sheet-col-table th, .sheet-col-table td {
+            border: 1px solid rgba(255,255,255,0.06); padding: 5px 8px; text-align: left;
+        }
+        .sheet-col-table th { background: rgba(99,102,241,0.12); }
+        .sheet-col-table .req { color: var(--danger); font-weight: 600; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">Yo<span>Botz</span></a>
+        </div>
+    </header>
+
+    <!-- Progress -->
+    <div class="progress-container">
+        <!-- Restore Banner -->
+        <div id="restoreBanner" class="restore-banner" style="display: none;">
+            <span>You have a saved progress</span>
+            <button class="btn btn-secondary" onclick="startFresh()" style="padding: 0.5rem 1rem; font-size: 0.75rem;">Start Fresh</button>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-steps">
+                <div class="progress-step active" data-step="1">
+                    <div class="step-circle">1</div>
+                    <div class="step-label">Basic Info</div>
+                </div>
+                <div class="progress-step" data-step="2">
+                    <div class="step-circle">2</div>
+                    <div class="step-label">Features</div>
+                </div>
+                <div class="progress-step" data-step="3">
+                    <div class="step-circle">3</div>
+                    <div class="step-label">Contact</div>
+                </div>
+                <div class="progress-step" data-step="4">
+                    <div class="step-circle">4</div>
+                    <div class="step-label">Settings</div>
+                </div>
+                <div class="progress-step" data-step="5">
+                    <div class="step-circle">5</div>
+                    <div class="step-label">Bot Setup</div>
+                </div>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <main>
+        <!-- Step 1: Basic Info -->
+        <div class="step-content active" data-step="1">
+            <h1>Let's Start with Your Business</h1>
+            <p class="subtitle">Tell us a bit about your business</p>
+
+            <form id="step1Form">
+                <div class="form-group" id="nameGroup">
+                    <label for="name">Business Name (slug)</label>
+                    <input type="text" id="name" placeholder="my_bakery" required>
+                    <p class="hint">Lowercase letters, numbers, underscores only</p>
+                    <p class="error">Please enter a valid business name</p>
+                </div>
+
+                <div class="form-group" id="displayNameGroup">
+                    <label for="displayName">Display Name</label>
+                    <input type="text" id="displayName" placeholder="My Awesome Bakery" required>
+                    <p class="error">Display name is required</p>
+                </div>
+
+                <div class="form-group" id="categoryGroup">
+                    <label for="category">Business Category</label>
+                    <select id="category" required onchange="updateCategoryQuiz()">
+                        <option value="">Select a category...</option>
+                        <option value="bakery">Bakery</option>
+                        <option value="pizza">Pizza Shop</option>
+                        <option value="restaurant">Restaurant</option>
+                        <option value="cafe">Cafe</option>
+                        <option value="retail">Retail</option>
+                        <option value="salon">Salon / Spa</option>
+                        <option value="clinic">Clinic</option>
+                        <option value="generic">Other</option>
+                    </select>
+                    <p class="error">Please select a category</p>
+                </div>
+
+                <div class="form-group" id="descriptionQuizGroup" style="display: none;">
+                    <label>Quick Description</label>
+                    <p class="hint">Help us understand your business better — pick or type below</p>
+                    
+                    <div class="description-quiz" id="descriptionQuiz">
+                        <!-- Vibes -->
+                        <div class="quiz-question">
+                            <label>What's your vibe? <span style="font-weight: 400; color: var(--gray)">(pick one)</span></label>
+                            <div class="quiz-options" data-field="vibe" id="vibeOptions">
+                                <!-- Populated by JS based on category -->
+                            </div>
+                        </div>
+                        
+                        <!-- Specialties -->
+                        <div class="quiz-question">
+                            <label>What makes you special? <span style="font-weight: 400; color: var(--gray)">(pick up to 2)</span></label>
+                            <div class="quiz-options" data-field="specialty" data-multiple="true" id="specialtyOptions">
+                                <!-- Populated by JS based on category -->
+                            </div>
+                        </div>
+                        
+                        <!-- Free text -->
+                        <div class="quiz-question">
+                            <label>Anything else? <span style="font-weight: 400; color: var(--gray)">(optional, skip if busy)</span></label>
+                            <input type="text" id="description" class="quiz-text-input" 
+                                   placeholder="e.g., 'Est. 2020, serving the community with love'">
+                        </div>
+                        
+                        <!-- Preview -->
+                        <div class="generated-preview" id="descriptionPreview" style="display: none;">
+                            <p id="descriptionPreviewText"></p>
+                            <span class="edit-link" onclick="editDescription()">Edit description</span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div class="nav-buttons">
+                <div></div>
+                <button class="btn btn-primary" onclick="nextStep()">Continue</button>
+            </div>
+        </div>
+
+        <!-- Step 2: Features -->
+        <div class="step-content" data-step="2">
+            <h1>What Does Your Business Need?</h1>
+            <p class="subtitle">Enable the features that match your workflow</p>
+
+            <div class="feature-list">
+                <div class="feature-item" id="orderingFeature" onclick="toggleFeature(this, 'ordering')">
+                    <label class="feature-toggle">
+                        <input type="checkbox" id="ordering" onchange="handleOrderingToggle(this)">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <div class="feature-info">
+                        <h3>Ordering System</h3>
+                        <p>Cart, checkout, order confirmations. For product-based businesses.</p>
+                        <div class="feature-sub-options" id="orderingOptions" style="display: none;">
+                            <div class="sub-option" onclick="event.stopPropagation(); selectOrderingMode('cart', this)">
+                                <input type="radio" name="orderingMode" id="modeCart" value="cart">
+                                <div>
+                                    <label for="modeCart">Full Cart Mode</label>
+                                    <p class="sub-option-desc">Add items, checkout and confirm orders directly in chat.</p>
+                                </div>
+                            </div>
+                            <div class="sub-option" onclick="event.stopPropagation(); selectOrderingMode('reservation', this)">
+                                <input type="radio" name="orderingMode" id="modeReservation" value="reservation">
+                                <div>
+                                    <label for="modeReservation">Reservation Mode</label>
+                                    <p class="sub-option-desc">Pickup slots only. For cash-on-pickup businesses.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="feature-item" onclick="toggleFeature(this, 'booking')">
+                    <label class="feature-toggle">
+                        <input type="checkbox" id="booking">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <div class="feature-info">
+                        <h3>Booking System</h3>
+                        <p>Appointments for services. Ideal for salons, clinics.</p>
+                    </div>
+                </div>
+
+                <div class="feature-item" onclick="toggleFeature(this, 'accounts')">
+                    <label class="feature-toggle">
+                        <input type="checkbox" id="accounts">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <div class="feature-info">
+                        <h3>Customer Accounts</h3>
+                        <p>User profiles and order history.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="prevStep()">Back</button>
+                <button class="btn btn-primary" onclick="nextStep()">Continue</button>
+            </div>
+        </div>
+
+        <!-- Step 3: Contact -->
+        <div class="step-content" data-step="3">
+            <h1>How Can Customers Reach You?</h1>
+            <p class="subtitle">Your contact information and business hours</p>
+
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" id="address" placeholder="123 Main Street, City">
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" placeholder="+1 234 567 8900">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="hello@yourbusiness.com">
+            </div>
+
+            <div class="form-group">
+                <label for="website">Website <span>(optional)</span></label>
+                <input type="url" id="website" placeholder="https://yourbusiness.com">
+            </div>
+
+            <div class="form-group">
+                <label for="timezone">Timezone</label>
+                <select id="timezone">
+                    <option value="Asia/Singapore">Singapore (SGT)</option>
+                    <option value="Asia/Kuala_Lumpur">Kuala Lumpur (MYT)</option>
+                    <option value="Asia/Hong_Kong">Hong Kong (HKT)</option>
+                    <option value="Asia/Tokyo">Tokyo (JST)</option>
+                    <option value="America/New_York">New York (EST)</option>
+                    <option value="America/Los_Angeles">Los Angeles (PST)</option>
+                    <option value="Europe/London">London (GMT)</option>
+                </select>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="prevStep()">Back</button>
+                <button class="btn btn-primary" onclick="nextStep()">Continue</button>
+            </div>
+        </div>
+
+        <!-- Step 4: Settings -->
+        <div class="step-content" data-step="4">
+            <h1>Fine-tune Your Settings</h1>
+            <p class="subtitle">Configure operational settings based on your features</p>
+
+            <div id="orderingSettings" style="display: none;">
+                <div class="form-group">
+                    <label for="minOrder">Minimum Order Amount</label>
+                    <input type="number" id="minOrder" placeholder="0.00" min="0" step="0.01">
+                    <p class="hint">Leave empty or 0 for no minimum</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="productSource">Product Source</label>
+                    <select id="productSource" onchange="handleProductSource()">
+                        <option value="static">Static File (default)</option>
+                        <option value="apps_script">Google Sheets (via Apps Script)</option>
+                    </select>
+                    <p class="hint">Where your product list lives. Choose Google Sheets to sync from a live spreadsheet.</p>
+                </div>
+
+                <!-- Sheet Setup Inline -->
+                <div class="sheet-setup-block" id="sheetSetupBlock">
+                    <div class="form-group">
+                        <label for="sheetUrl">Apps Script Web App URL</label>
+                        <input type="url" id="sheetUrl"
+                               placeholder="https://script.google.com/macros/s/.../exec"
+                               autocomplete="off">
+                        <p class="hint">From step 7 after deploying the script.</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sheetToken">Secret Token</label>
+                        <input type="text" id="sheetToken"
+                               placeholder="The password from your script's SECRET_TOKEN"
+                               autocomplete="off">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sheetSyncInterval">Sync Interval (minutes)</label>
+                        <input type="number" id="sheetSyncInterval" value="60" min="5" max="1440">
+                        <p class="hint">How often to pull products from your sheet. Default 60.</p>
+                    </div>
+
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                        <button class="btn btn-accent" style="padding:0.5rem 1rem; font-size:0.8rem;" onclick="testSheetConnection()" id="sheetTestBtn">Test Connection</button>
+                        <button class="sheet-help-toggle" onclick="toggleSheetHelp()" id="sheetHelpToggle">
+                            <span class="arrow">▶</span> Need help setting up?
+                        </button>
+                    </div>
+
+                    <div class="sheet-test-result" id="sheetTestResult"></div>
+
+                    <!-- Collapsible Help -->
+                    <div class="sheet-help-content" id="sheetHelpContent">
+                        <div class="sheet-help-step">
+                            <h4>Your Sheet Columns</h4>
+                            <p style="font-size:0.8rem; color:var(--gray); margin-bottom:0.5rem;">Put these as column headers in Row 1. Only <strong style="color:var(--light);">Product Name</strong> is mandatory.</p>
+                            <table class="sheet-col-table">
+                                <thead><tr><th>Column</th><th>Example</th></tr></thead>
+                                <tbody>
+                                    <tr><td class="req">Product Name</td><td>Sourdough Bread</td></tr>
+                                    <tr><td>Category</td><td>Breads</td></tr>
+                                    <tr><td>Price</td><td>$5.99</td></tr>
+                                    <tr><td>Description</td><td>Traditional sourdough</td></tr>
+                                    <tr><td>Bookable</td><td>Yes / No</td></tr>
+                                    <tr><td>Quantity</td><td>10</td></tr>
+                                    <tr><td>Synonyms</td><td>bread, loaf</td></tr>
+                                </tbody>
+                            </table>
+                            <div class="note" style="font-size:0.7rem; margin:0.5rem 0;">Quantity = 0 or blank → product marked unavailable.</div>
+                        </div>
+
+                        <div class="sheet-help-step">
+                            <h4>Code Generator</h4>
+                            <p style="font-size:0.75rem; color:var(--gray); margin-bottom:0.5rem;">Fill in your values — code updates live. Click <strong style="color:var(--light);">Copy</strong> when ready.</p>
+                            <div class="sheet-gen-row">
+                                <div class="sheet-gen-field">
+                                    <label>Secret Token</label>
+                                    <input type="text" id="genToken" placeholder="my_bakery_secret_2026" autocomplete="off">
+                                    <div class="hint">Password for YoBotz to authenticate.</div>
+                                </div>
+                                <div class="sheet-gen-field">
+                                    <label>Sheet Tab Name</label>
+                                    <input type="text" id="genSheet" placeholder="Bakery Products Inventory V4" autocomplete="off">
+                                    <div class="hint">Exact tab name. Case-sensitive.</div>
+                                </div>
+                            </div>
+                            <div class="sheet-code-wrap">
+                                <button class="sheet-copy-btn" onclick="copySheetCode()" id="sheetCopyBtn">Copy</button>
+                                <pre><code id="sheetCodeOutput">function doGet(e) {
+  var token = e.parameter.token;
+  var SECRET_TOKEN = "my_bakery_secret_2026";
+  if (token !== SECRET_TOKEN) {
+    return ContentService.createTextOutput(
+      JSON.stringify({error: "Unauthorized"})
+    ).setMimeType(ContentService.MimeType.JSON);
+  }
+  var sheet = SpreadsheetApp.getActiveSpreadsheet()
+    .getSheetByName("Bakery Products Inventory V4");
+  var data = sheet.getDataRange().getValues();
+  var headers = data[0];
+  var rows = [];
+  for (var i = 1; i < data.length; i++) {
+    var row = {};
+    for (var j = 0; j < headers.length; j++) {
+      row[headers[j]] = data[i][j];
+    }
+    rows.push(row);
+  }
+  return ContentService.createTextOutput(
+    JSON.stringify(rows)
+  ).setMimeType(ContentService.MimeType.JSON);
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="sheet-help-step">
+                            <h4>Deploy in Google Sheets</h4>
+                            <div class="sheet-deploy-row"><div class="sheet-deploy-num">1</div><div class="sheet-deploy-text">Open your sheet → <strong>Extensions → Apps Script</strong></div></div>
+                            <div class="sheet-deploy-row"><div class="sheet-deploy-num script">2</div><div class="sheet-deploy-text">Delete placeholder code, <strong>paste your script</strong> from above, click Save</div></div>
+                            <div class="sheet-deploy-row"><div class="sheet-deploy-num deploy">3</div><div class="sheet-deploy-text">Click <strong>Deploy → New deployment</strong></div></div>
+                            <div class="sheet-deploy-row"><div class="sheet-deploy-num">4</div><div class="sheet-deploy-text">Type: <strong>Web app</strong></div></div>
+                            <div class="sheet-deploy-row"><div class="sheet-deploy-num">5</div><div class="sheet-deploy-text">Who has access: <strong>"Anyone"</strong></div></div>
+                            <div class="sheet-deploy-row"><div class="sheet-deploy-num">6</div><div class="sheet-deploy-text">Click <strong>Deploy</strong>, authorize when prompted</div></div>
+                            <div class="sheet-deploy-row" style="border:1px solid var(--secondary); background:rgba(14,165,233,0.06);">
+                                <div class="sheet-deploy-num deploy">7</div>
+                                <div class="sheet-deploy-text"><strong>Copy the Web App URL</strong> — paste it in the URL field above, then click <strong>Test Connection</strong>.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="bookingSettings" style="display: none;">
+                <div class="form-group">
+                    <label for="minNotice">Minimum Booking Notice (hours)</label>
+                    <input type="number" id="minNotice" placeholder="24" min="1">
+                    <p class="hint">How far in advance customers must book</p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="hoursOpen">Opening Time</label>
+                <input type="time" id="hoursOpen" value="09:00">
+            </div>
+
+            <div class="form-group">
+                <label for="hoursClose">Closing Time</label>
+                <input type="time" id="hoursClose" value="18:00">
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="prevStep()">Back</button>
+                <button class="btn btn-primary" onclick="nextStep()">Continue</button>
+            </div>
+        </div>
+
+        <!-- Step 5: Bot Setup -->
+        <div class="step-content" data-step="5">
+            <h1>Connect Your Telegram Bot</h1>
+            <p class="subtitle">You'll need a bot token from @BotFather</p>
+
+            <div class="form-group">
+                <label for="botToken">Bot Token</label>
+                <input type="text" id="botToken" placeholder="123456789:ABCdefGHIjklMNOpqrsTUVwxyz" required>
+                <p class="hint">Get it from <a href="https://t.me/BotFather" target="_blank" style="color: var(--primary);">@BotFather</a> on Telegram</p>
+            </div>
+
+            <div class="form-group">
+                <label for="notifyToken">Notification Bot Token <span>(optional)</span></label>
+                <input type="text" id="notifyToken" placeholder="Same as main bot or separate">
+                <p class="hint">Use a separate bot for admin notifications</p>
+            </div>
+
+            <p class="hint" style="margin-bottom: 1rem;">Chat IDs will be captured automatically when you message the bot.</p>
+
+            <div class="preview-section">
+                <div class="preview-header">
+                    <div class="preview-toggle" onclick="togglePreview()">
+                        <span>Preview Generated Files</span>
+                        <span id="previewArrow">▼</span>
+                    </div>
+                    <div class="ai-badge">
+                        <span class="sparkle">✨</span>
+                        <span>AI-Powered</span>
+                    </div>
+                </div>
+                <div class="preview-files" id="previewFiles">
+                    <p style="color: var(--gray); font-size: 0.875rem;">Loading preview...</p>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="prevStep()">Back</button>
+                <button class="btn btn-primary" onclick="completeOnboarding()">
+                    <span id="completeBtn">Launch Business</span>
+                    <span id="completeSpinner" class="spinner" style="width: 20px; height: 20px; display: none;"></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Setting up your business...</p>
+        </div>
+
+        <!-- Success -->
+        <div class="step-content" data-step="success" id="successPage">
+            <div class="success-page">
+                <div class="success-icon">✓</div>
+                <h1>Business Created!</h1>
+                <p>Your bot is configured and ready. Here's a summary of what was set up:</p>
+
+                <div class="success-summary" id="successSummary">
+                    <!-- Populated by JavaScript -->
+                </div>
+
+                <div class="next-steps">
+                    <h3>Next Steps</h3>
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div class="step-text">
+                            <strong>Message your bot on Telegram</strong>
+                            <p>Send any message to capture your chat ID automatically</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div class="step-text">
+                            <strong>Configure your products/services</strong>
+                            <p>Edit products.json or services.yaml to add your offerings</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div class="step-text">
+                            <strong>Customize responses</strong>
+                            <p>Update responses.yaml to match your brand voice</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div class="step-text">
+                            <strong>Test your bot</strong>
+                            <p>Start the bot and test the conversation flows</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="file-list">
+                    <h4>Files Created</h4>
+                    <ul id="filesList">
+                        <li>business_config.yaml</li>
+                        <li>responses.yaml</li>
+                        <li id="productsLine" style="display: none;">products.json</li>
+                        <li id="servicesLine" style="display: none;">services.yaml</li>
+                        <li>.env</li>
+                    </ul>
+                </div>
+
+                <a href="index.html" class="btn btn-secondary">Back to Home</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Save Indicator -->
+    <div class="save-indicator" id="saveIndicator">Progress saved</div>
+
+    <script>
+        // State
+        let currentStep = 1;
+        const totalSteps = 5;
+        let sessionId = null;
+        let formData = {
+            features: {}
+        };
+        let saveTimeout = null;
+
+        // Storage key
+        const STORAGE_KEY = 'yobotz_onboarding_progress';
+
+        // Category-specific quiz options
+        const categoryQuizData = {
+            bakery: {
+                vibes: [
+                    { value: 'Family-Friendly', label: 'Family-Friendly' },
+                    { value: 'Cozy & Homely', label: 'Cozy & Homely' },
+                    { value: 'Artisan/Premium', label: 'Artisan/Premium' },
+                    { value: 'Modern & Trendy', label: 'Modern & Trendy' },
+                    { value: 'Casual & Fun', label: 'Casual & Fun' },
+                    { value: 'Traditional', label: 'Traditional' }
+                ],
+                specialties: [
+                    { value: 'Fresh/Daily', label: 'Fresh/Daily Made' },
+                    { value: 'Artisan', label: 'Artisan Crafted' },
+                    { value: 'Custom Cakes', label: 'Custom Cakes' },
+                    { value: 'Gluten-Free', label: 'Gluten-Free Options' },
+                    { value: 'Organic/Natural', label: 'Organic/Natural' },
+                    { value: 'Local Ingredients', label: 'Local Ingredients' },
+                    { value: 'Affordable', label: 'Affordable' },
+                    { value: 'Quick Pickup', label: 'Quick Pickup' }
+                ]
+            },
+            pizza: {
+                vibes: [
+                    { value: 'Casual & Fun', label: 'Casual & Fun' },
+                    { value: 'Family-Friendly', label: 'Family-Friendly' },
+                    { value: 'Neapolitan/Authentic', label: 'Neapolitan/Authentic' },
+                    { value: 'Modern & Trendy', label: 'Modern & Trendy' },
+                    { value: 'Premium/Luxury', label: 'Premium/Luxury' },
+                    { value: 'Sports Bar', label: 'Sports Bar Vibe' }
+                ],
+                specialties: [
+                    { value: 'Wood-Fired', label: 'Wood-Fired' },
+                    { value: 'Fresh/Daily', label: 'Fresh/Daily Made' },
+                    { value: 'Custom Pizzas', label: 'Custom Pizzas' },
+                    { value: 'Fast Delivery', label: 'Fast Delivery' },
+                    { value: 'Affordable', label: 'Affordable' },
+                    { value: 'Gluten-Free Crust', label: 'Gluten-Free Crust' },
+                    { value: 'Local Ingredients', label: 'Local Ingredients' },
+                    { value: 'Late Night', label: 'Late Night Hours' }
+                ]
+            },
+            restaurant: {
+                vibes: [
+                    { value: 'Casual & Fun', label: 'Casual & Fun' },
+                    { value: 'Fine Dining', label: 'Fine Dining' },
+                    { value: 'Family-Friendly', label: 'Family-Friendly' },
+                    { value: 'Romantic', label: 'Romantic' },
+                    { value: 'Modern & Trendy', label: 'Modern & Trendy' },
+                    { value: 'Traditional', label: 'Traditional' }
+                ],
+                specialties: [
+                    { value: 'Local Cuisine', label: 'Local Cuisine' },
+                    { value: 'Fusion', label: 'Fusion/Experimental' },
+                    { value: 'Farm-to-Table', label: 'Farm-to-Table' },
+                    { value: 'Fast Service', label: 'Fast Service' },
+                    { value: 'Private Dining', label: 'Private Dining' },
+                    { value: 'Live Music', label: 'Live Music' },
+                    { value: 'Organic/Natural', label: 'Organic/Natural' },
+                    { value: 'Affordable', label: 'Affordable' }
+                ]
+            },
+            cafe: {
+                vibes: [
+                    { value: 'Cozy & Homely', label: 'Cozy & Homely' },
+                    { value: 'Modern & Trendy', label: 'Modern & Trendy' },
+                    { value: 'Work-Friendly', label: 'Work-Friendly' },
+                    { value: 'Aesthetic', label: 'Aesthetic/Instagrammable' },
+                    { value: 'Quiet & Relaxed', label: 'Quiet & Relaxed' },
+                    { value: 'Pet-Friendly', label: 'Pet-Friendly' }
+                ],
+                specialties: [
+                    { value: 'Specialty Coffee', label: 'Specialty Coffee' },
+                    { value: 'Artisan Pastries', label: 'Artisan Pastries' },
+                    { value: 'Plant-Based', label: 'Plant-Based Options' },
+                    { value: 'All-Day Breakfast', label: 'All-Day Breakfast' },
+                    { value: 'Brunch', label: 'Brunch Menu' },
+                    { value: 'Free WiFi', label: 'Free WiFi' },
+                    { value: 'Co-Working', label: 'Co-Working Space' },
+                    { value: 'Quick Service', label: 'Quick Service' }
+                ]
+            },
+            retail: {
+                vibes: [
+                    { value: 'Modern & Trendy', label: 'Modern & Trendy' },
+                    { value: 'Boutique', label: 'Boutique/Stylish' },
+                    { value: 'Minimalist', label: 'Minimalist' },
+                    { value: 'Budget-Friendly', label: 'Budget-Friendly' },
+                    { value: 'Premium/Luxury', label: 'Premium/Luxury' },
+                    { value: 'Eco-Friendly', label: 'Eco-Friendly' }
+                ],
+                specialties: [
+                    { value: 'Handmade', label: 'Handmade Products' },
+                    { value: 'Local Artisans', label: 'Local Artisans' },
+                    { value: 'Eco-Friendly', label: 'Eco-Friendly' },
+                    { value: 'Affordable', label: 'Affordable' },
+                    { value: 'Custom Orders', label: 'Custom Orders' },
+                    { value: 'Fast Service', label: 'Fast Service' },
+                    { value: 'Delivery', label: 'Delivery Available' },
+                    { value: 'Unique Finds', label: 'Unique Finds' }
+                ]
+            },
+            salon: {
+                vibes: [
+                    { value: 'Professional', label: 'Professional' },
+                    { value: 'Relaxing', label: 'Relaxing Spa' },
+                    { value: 'Modern & Trendy', label: 'Modern & Trendy' },
+                    { value: 'Premium/Luxury', label: 'Premium/Luxury' },
+                    { value: 'Cozy & Homely', label: 'Cozy & Homely' },
+                    { value: 'Gender-Neutral', label: 'Gender-Neutral' }
+                ],
+                specialties: [
+                    { value: 'Expert Stylists', label: 'Expert Stylists' },
+                    { value: 'Custom Treatments', label: 'Custom Treatments' },
+                    { value: 'Organic Products', label: 'Organic Products' },
+                    { value: 'Fast Service', label: 'Fast Service' },
+                    { value: 'Affordable', label: 'Affordable' },
+                    { value: 'Bridal', label: 'Bridal Services' },
+                    { value: 'Unisex', label: 'Unisex' },
+                    { value: 'Late Hours', label: 'Late Hours' }
+                ]
+            },
+            clinic: {
+                vibes: [
+                    { value: 'Professional', label: 'Professional' },
+                    { value: 'Modern & Trendy', label: 'Modern & Clean' },
+                    { value: 'Comforting', label: 'Comforting' },
+                    { value: 'Premium/Luxury', label: 'Premium/Luxury' },
+                    { value: 'Family-Friendly', label: 'Family-Friendly' },
+                    { value: 'Holistic', label: 'Holistic/Wellness' }
+                ],
+                specialties: [
+                    { value: 'Experienced Doctors', label: 'Experienced Doctors' },
+                    { value: 'Quick Appointments', label: 'Quick Appointments' },
+                    { value: 'Modern Equipment', label: 'Modern Equipment' },
+                    { value: 'Affordable', label: 'Affordable' },
+                    { value: 'Specialized', label: 'Specialized Services' },
+                    { value: 'Walk-Ins Welcome', label: 'Walk-Ins Welcome' },
+                    { value: 'Insurance Accepted', label: 'Insurance Accepted' },
+                    { value: 'Telemedicine', label: 'Telemedicine' }
+                ]
+            },
+            generic: {
+                vibes: [
+                    { value: 'Professional', label: 'Professional' },
+                    { value: 'Friendly', label: 'Friendly' },
+                    { value: 'Modern & Trendy', label: 'Modern & Trendy' },
+                    { value: 'Premium/Luxury', label: 'Premium/Luxury' },
+                    { value: 'Family-Friendly', label: 'Family-Friendly' },
+                    { value: 'Casual & Fun', label: 'Casual & Fun' }
+                ],
+                specialties: [
+                    { value: 'Fast Service', label: 'Fast Service' },
+                    { value: 'Affordable', label: 'Affordable' },
+                    { value: 'Custom Orders', label: 'Custom Orders' },
+                    { value: 'Quality', label: 'Quality First' },
+                    { value: 'Delivery', label: 'Delivery' },
+                    { value: 'Local', label: 'Local Favorite' },
+                    { value: 'Eco-Friendly', label: 'Eco-Friendly' },
+                    { value: 'Expert Staff', label: 'Expert Staff' }
+                ]
+            }
+        };
+
+        // Update quiz options based on category
+        function updateCategoryQuiz() {
+            const category = document.getElementById('category').value;
+            const quizGroup = document.getElementById('descriptionQuizGroup');
+            const vibeContainer = document.getElementById('vibeOptions');
+            const specialtyContainer = document.getElementById('specialtyOptions');
+            
+            if (!category) {
+                quizGroup.style.display = 'none';
+                return;
+            }
+            
+            quizGroup.style.display = 'block';
+            
+            const data = categoryQuizData[category] || categoryQuizData.generic;
+            
+            // Populate vibes
+            vibeContainer.innerHTML = data.vibes.map(v => 
+                `<div class="quiz-option" data-value="${v.value}" onclick="selectQuizOption(this)">${v.label}</div>`
+            ).join('');
+            
+            // Populate specialties
+            specialtyContainer.innerHTML = data.specialties.map(s => 
+                `<div class="quiz-option" data-value="${s.value}" data-multiple="true" onclick="selectQuizOption(this)">${s.label}</div>`
+            ).join('');
+        }
+
+        // Handle quiz option selection
+        function selectQuizOption(el) {
+            const container = el.closest('.quiz-options');
+            const isMultiple = container.dataset.multiple === 'true';
+            
+            if (isMultiple) {
+                el.classList.toggle('selected');
+                const selected = container.querySelectorAll('.selected');
+                if (selected.length > 2) {
+                    selected[0].classList.remove('selected');
+                }
+            } else {
+                container.querySelectorAll('.quiz-option').forEach(opt => opt.classList.remove('selected'));
+                el.classList.add('selected');
+            }
+            
+            updateDescriptionPreview();
+        }
+
+        // Update description preview
+        function updateDescriptionPreview() {
+            const vibe = document.querySelector('#vibeOptions .quiz-option.selected')?.dataset.value || '';
+            const specialties = Array.from(document.querySelectorAll('#specialtyOptions .quiz-option.selected'))
+                .map(el => el.dataset.value);
+            const extra = document.getElementById('description').value.trim();
+            
+            if (!vibe && specialties.length === 0 && !extra) {
+                document.getElementById('descriptionPreview').style.display = 'none';
+                return;
+            }
+            
+            const parts = [];
+            if (vibe) parts.push(vibe);
+            if (specialties.length > 0) parts.push(...specialties);
+            
+            let previewText = parts.join(' · ');
+            if (extra) previewText += (previewText ? ' · ' : '') + extra;
+            
+            document.getElementById('descriptionPreviewText').textContent = previewText;
+            document.getElementById('descriptionPreview').style.display = 'block';
+        }
+
+        // Edit description
+        function editDescription() {
+            document.getElementById('descriptionPreview').style.display = 'none';
+            document.getElementById('description').focus();
+        }
+
+        // API Base URL
+        const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://localhost:8000'
+            : '';
+
+        // Initialize
+        async function init() {
+            // Try to restore saved progress
+            restoreProgress();
+
+            try {
+                const response = await fetch(`${API_BASE}/onboarding/start`, { method: 'POST' });
+                const data = await response.json();
+                sessionId = data.session_id;
+            } catch (e) {
+                console.error('Failed to start session:', e);
+                // Continue anyway - demo mode
+            }
+        }
+
+        // Save Progress to localStorage
+        function saveProgress() {
+            collectStepData(currentStep);
+            const progress = {
+                currentStep,
+                formData,
+                timestamp: Date.now()
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+            showSaveIndicator();
+        }
+
+        // Auto-save with debounce
+        function autoSave() {
+            if (saveTimeout) clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(saveProgress, 1000);
+        }
+
+        // Show save indicator
+        function showSaveIndicator() {
+            const indicator = document.getElementById('saveIndicator');
+            indicator.classList.add('show');
+            setTimeout(() => indicator.classList.remove('show'), 2000);
+        }
+
+        // Restore Progress from localStorage
+        function restoreProgress() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (!saved) return;
+
+            try {
+                const progress = JSON.parse(saved);
+                // Check if saved data is less than 7 days old
+                const maxAge = 7 * 24 * 60 * 60 * 1000;
+                if (Date.now() - progress.timestamp > maxAge) {
+                    localStorage.removeItem(STORAGE_KEY);
+                    return;
+                }
+
+                formData = progress.formData || { features: {} };
+                currentStep = progress.currentStep || 1;
+
+                // Restore form values
+                restoreFormValues();
+
+                // Show step
+                showStep(currentStep);
+
+                // Show restore banner
+                const banner = document.getElementById('restoreBanner');
+                if (banner) banner.style.display = 'flex';
+            } catch (e) {
+                console.error('Failed to restore progress:', e);
+            }
+        }
+
+        // Restore form field values
+        function restoreFormValues() {
+            // Step 1
+            if (formData.name) document.getElementById('name').value = formData.name;
+            if (formData.display_name) document.getElementById('displayName').value = formData.display_name;
+            if (formData.category) {
+                document.getElementById('category').value = formData.category;
+                updateCategoryQuiz();
+            }
+            if (formData.description) document.getElementById('description').value = formData.description || '';
+
+            // Step 2 - Features
+            if (formData.features) {
+                document.getElementById('ordering').checked = formData.features.ordering || false;
+                document.getElementById('booking').checked = formData.features.booking || false;
+                document.getElementById('accounts').checked = formData.features.accounts || false;
+
+                // Update feature item styles
+                document.getElementById('orderingFeature').classList.toggle('enabled', formData.features.ordering);
+                ['booking', 'accounts'].forEach(f => {
+                    const el = document.querySelector(`.feature-item[onclick*="'${f}'"]`);
+                    if (el) el.classList.toggle('enabled', formData.features[f]);
+                });
+
+                // Handle ordering options
+                if (formData.features.ordering) {
+                    document.getElementById('orderingOptions').style.display = 'block';
+                    document.getElementById('orderingFeature').classList.add('has-sub-options');
+                    if (formData.features.ordering_mode) {
+                        const modeRadio = document.querySelector(`input[name="orderingMode"][value="${formData.features.ordering_mode}"]`);
+                        if (modeRadio) {
+                            modeRadio.checked = true;
+                            modeRadio.closest('.sub-option').classList.add('selected');
+                        }
+                    }
+                }
+            }
+
+            // Step 3 - Contact
+            if (formData.address) document.getElementById('address').value = formData.address;
+            if (formData.phone) document.getElementById('phone').value = formData.phone;
+            if (formData.email) document.getElementById('email').value = formData.email;
+            if (formData.website) document.getElementById('website').value = formData.website || '';
+            if (formData.timezone) document.getElementById('timezone').value = formData.timezone;
+
+            // Step 4 - Settings
+            if (formData.min_order_amount !== undefined) document.getElementById('minOrder').value = formData.min_order_amount;
+            if (formData.min_booking_notice !== undefined) document.getElementById('minNotice').value = formData.min_booking_notice;
+            if (formData.hours_open) document.getElementById('hoursOpen').value = formData.hours_open;
+            if (formData.hours_close) document.getElementById('hoursClose').value = formData.hours_close;
+            if (formData.product_source) {
+                document.getElementById('productSource').value = formData.product_source;
+                handleProductSource();
+            }
+            if (formData.apps_script_url) document.getElementById('sheetUrl').value = formData.apps_script_url;
+            if (formData.sync_interval_minutes) document.getElementById('sheetSyncInterval').value = formData.sync_interval_minutes;
+
+            // Update settings visibility
+            document.getElementById('orderingSettings').style.display =
+                formData.features.ordering ? 'block' : 'none';
+            document.getElementById('bookingSettings').style.display =
+                formData.features.booking ? 'block' : 'none';
+
+            // Step 5 - Bot
+            if (formData.BOT_TOKEN) document.getElementById('botToken').value = formData.BOT_TOKEN;
+            if (formData.NOTIFICATION_BOT_TOKEN) document.getElementById('notifyToken').value = formData.NOTIFICATION_BOT_TOKEN;
+        }
+
+        // Clear saved progress
+        function clearSavedProgress() {
+            localStorage.removeItem(STORAGE_KEY);
+            const banner = document.getElementById('restoreBanner');
+            if (banner) banner.style.display = 'none';
+        }
+
+        // Start fresh
+        function startFresh() {
+            clearSavedProgress();
+            currentStep = 1;
+            formData = { features: {} };
+            document.querySelectorAll('input, select, textarea').forEach(el => {
+                if (el.type === 'checkbox' || el.type === 'radio') {
+                    el.checked = false;
+                } else {
+                    el.value = '';
+                }
+            });
+            document.querySelectorAll('.feature-item').forEach(el => el.classList.remove('enabled', 'has-sub-options'));
+            document.getElementById('orderingOptions').style.display = 'none';
+            document.getElementById('orderingSettings').style.display = 'none';
+            document.getElementById('bookingSettings').style.display = 'none';
+            document.getElementById('sheetSetupBlock').classList.remove('visible');
+            document.getElementById('descriptionQuizGroup').style.display = 'none';
+            document.getElementById('descriptionPreview').style.display = 'none';
+            document.getElementById('timezone').value = 'Asia/Singapore';
+            document.getElementById('hoursOpen').value = '09:00';
+            document.getElementById('hoursClose').value = '18:00';
+            document.getElementById('productSource').value = 'static';
+            showStep(1);
+        }
+
+        // Navigation
+        function showStep(step) {
+            window.scrollTo(0, 0);
+            document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+            document.querySelector(`.step-content[data-step="${step}"]`).classList.add('active');
+
+            document.querySelectorAll('.progress-step').forEach((el, i) => {
+                el.classList.remove('active', 'completed');
+                if (i + 1 < step) el.classList.add('completed');
+                if (i + 1 === step) el.classList.add('active');
+            });
+
+            document.getElementById('progressFill').style.width = `${((step - 1) / (totalSteps - 1)) * 100}%`;
+            currentStep = step;
+        }
+
+        function nextStep() {
+            if (!validateStep(currentStep)) return;
+
+            if (currentStep < totalSteps) {
+                collectStepData(currentStep);
+                showStep(currentStep + 1);
+                saveProgress();
+
+                if (currentStep + 1 === 5) {
+                    loadPreview();
+                }
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 1) {
+                collectStepData(currentStep);
+                showStep(currentStep - 1);
+                saveProgress();
+            }
+        }
+
+        // Validation
+        function validateStep(step) {
+            if (step === 1) {
+                const name = document.getElementById('name').value.trim();
+                const displayName = document.getElementById('displayName').value.trim();
+                const category = document.getElementById('category').value;
+
+                let valid = true;
+
+                if (!name || !/^[a-z0-9_]+$/.test(name)) {
+                    document.getElementById('nameGroup').classList.add('has-error');
+                    valid = false;
+                } else {
+                    document.getElementById('nameGroup').classList.remove('has-error');
+                }
+
+                if (!displayName) {
+                    document.getElementById('displayNameGroup').classList.add('has-error');
+                    valid = false;
+                } else {
+                    document.getElementById('displayNameGroup').classList.remove('has-error');
+                }
+
+                if (!category) {
+                    document.getElementById('categoryGroup').classList.add('has-error');
+                    valid = false;
+                } else {
+                    document.getElementById('categoryGroup').classList.remove('has-error');
+                }
+
+                return valid;
+            }
+            return true;
+        }
+
+        // Handle ordering toggle
+        function handleOrderingToggle(checkbox) {
+            const featureEl = document.getElementById('orderingFeature');
+            const optionsEl = document.getElementById('orderingOptions');
+
+            featureEl.classList.toggle('enabled', checkbox.checked);
+            optionsEl.style.display = checkbox.checked ? 'block' : 'none';
+            featureEl.classList.toggle('has-sub-options', checkbox.checked);
+            document.getElementById('orderingSettings').style.display = checkbox.checked ? 'block' : 'none';
+
+            // If enabling and no mode selected, select cart by default
+            if (checkbox.checked && !document.querySelector('input[name="orderingMode"]:checked')) {
+                selectOrderingMode('cart', document.getElementById('modeCart').closest('.sub-option'));
+            }
+        }
+
+        // Select ordering mode
+        function selectOrderingMode(mode, el) {
+            document.querySelectorAll('.sub-option').forEach(opt => opt.classList.remove('selected'));
+            el.classList.add('selected');
+            document.querySelector(`input[name="orderingMode"][value="${mode}"]`).checked = true;
+            formData.features.ordering_mode = mode;
+        }
+
+        // Feature Toggle (for non-ordering features)
+        function toggleFeature(el, feature) {
+            const checkbox = el.querySelector('input[type="checkbox"]');
+            checkbox.checked = !checkbox.checked;
+            el.classList.toggle('enabled', checkbox.checked);
+
+            // Update settings visibility
+            if (feature === 'booking') {
+                document.getElementById('bookingSettings').style.display =
+                    document.getElementById('booking').checked ? 'block' : 'none';
+            }
+        }
+
+        // Collect Data
+        function collectStepData(step) {
+            if (step === 1) {
+                formData.name = document.getElementById('name').value.trim();
+                formData.display_name = document.getElementById('displayName').value.trim();
+                formData.category = document.getElementById('category').value;
+                
+                // Collect quiz selections
+                const selectedVibe = document.querySelector('#vibeOptions .quiz-option.selected');
+                const selectedSpecialties = Array.from(document.querySelectorAll('#specialtyOptions .quiz-option.selected'))
+                    .map(el => el.dataset.value);
+                
+                formData.vibe = selectedVibe?.dataset.value || '';
+                formData.specialties = selectedSpecialties;
+                formData.description = document.getElementById('description').value.trim();
+            } else if (step === 2) {
+                const orderingMode = document.querySelector('input[name="orderingMode"]:checked');
+                formData.features = {
+                    ordering: document.getElementById('ordering').checked,
+                    ordering_mode: orderingMode ? orderingMode.value : null,
+                    booking: document.getElementById('booking').checked,
+                    accounts: document.getElementById('accounts').checked,
+                };
+            } else if (step === 3) {
+                formData.address = document.getElementById('address').value.trim();
+                formData.phone = document.getElementById('phone').value.trim();
+                formData.email = document.getElementById('email').value.trim();
+                formData.website = document.getElementById('website').value.trim();
+                formData.timezone = document.getElementById('timezone').value;
+            } else if (step === 4) {
+                formData.min_order_amount = document.getElementById('minOrder').value;
+                formData.min_booking_notice = document.getElementById('minNotice').value;
+                formData.hours_open = document.getElementById('hoursOpen').value;
+                formData.hours_close = document.getElementById('hoursClose').value;
+                formData.product_source = document.getElementById('productSource').value;
+                formData.apps_script_url = document.getElementById('sheetUrl').value.trim();
+                formData.sync_interval_minutes = document.getElementById('sheetSyncInterval').value;
+            } else if (step === 5) {
+                formData.BOT_TOKEN = document.getElementById('botToken').value.trim();
+                formData.NOTIFICATION_BOT_TOKEN = document.getElementById('notifyToken').value.trim();
+            }
+        }
+
+        // Preview
+        async function loadPreview() {
+            try {
+                await submitStep();
+                const response = await fetch(`${API_BASE}/onboarding/preview/${sessionId}`);
+                const data = await response.json();
+
+                const container = document.getElementById('previewFiles');
+                container.innerHTML = '';
+
+                for (const [filename, content] of Object.entries(data.files)) {
+                    const fileEl = document.createElement('div');
+                    fileEl.className = 'preview-file';
+                    fileEl.innerHTML = `
+                        <div class="preview-file-header">
+                            <span>${filename}</span>
+                        </div>
+                        <div class="preview-file-content">${escapeHtml(content)}</div>
+                    `;
+                    container.appendChild(fileEl);
+                }
+            } catch (e) {
+                console.error('Failed to load preview:', e);
+            }
+        }
+
+        function togglePreview() {
+            document.getElementById('previewFiles').classList.toggle('show');
+            document.getElementById('previewArrow').textContent =
+                document.getElementById('previewFiles').classList.contains('show') ? '▲' : '▼';
+        }
+
+        // Submit Step
+        async function submitStep() {
+            try {
+                const response = await fetch(`${API_BASE}/onboarding/step`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ session_id: sessionId, data: formData })
+                });
+                return await response.json();
+            } catch (e) {
+                console.error('Failed to submit step:', e);
+                return { success: true }; // Demo mode
+            }
+        }
+
+        // Complete
+        async function completeOnboarding() {
+            const btn = document.getElementById('completeBtn');
+            const spinner = document.getElementById('completeSpinner');
+
+            btn.style.display = 'none';
+            spinner.style.display = 'block';
+
+            try {
+                collectStepData(5);
+                await submitStep();
+
+                const response = await fetch(`${API_BASE}/onboarding/complete/${sessionId}`, {
+                    method: 'POST'
+                });
+                const data = await response.json();
+
+                if (data.success) {
+                    // Update file list
+                    const filesList = document.getElementById('filesList');
+                    filesList.innerHTML = '';
+                    data.files_created.forEach(f => {
+                        const li = document.createElement('li');
+                        li.textContent = f;
+                        filesList.appendChild(li);
+                    });
+
+                    // Show notes based on features
+                    document.getElementById('productsNote').style.display =
+                        formData.features.ordering ? 'inline' : 'none';
+                    document.getElementById('servicesNote').style.display =
+                        (formData.features.booking || formData.features.reservation) ? 'inline' : 'none';
+
+                    showSuccess();
+                }
+            } catch (e) {
+                console.error('Failed to complete:', e);
+                // Show success anyway for demo
+                showSuccess();
+            }
+        }
+
+        function showSuccess() {
+            document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+            document.getElementById('successPage').classList.add('active');
+            document.getElementById('progressFill').style.width = '100%';
+            document.querySelectorAll('.progress-step').forEach(el => el.classList.add('completed'));
+        }
+
+        // Utilities
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Add auto-save listeners
+        function setupAutoSave() {
+            const inputs = document.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                input.addEventListener('change', autoSave);
+                input.addEventListener('input', autoSave);
+            });
+            
+            // Add listener for description input to update preview
+            const descInput = document.getElementById('description');
+            if (descInput) {
+                descInput.addEventListener('input', updateDescriptionPreview);
+            }
+        }
+
+        // Complete
+        async function completeOnboarding() {
+            const btn = document.getElementById('completeBtn');
+            const spinner = document.getElementById('completeSpinner');
+
+            btn.style.display = 'none';
+            spinner.style.display = 'block';
+
+            try {
+                collectStepData(5);
+                await submitStep();
+
+                const response = await fetch(`${API_BASE}/onboarding/complete/${sessionId}`, {
+                    method: 'POST'
+                });
+                const data = await response.json();
+
+                if (data.success) {
+                    // Clear saved progress on success
+                    clearSavedProgress();
+
+                    showSuccess();
+                }
+            } catch (e) {
+                console.error('Failed to complete:', e);
+                // Show success anyway for demo
+                clearSavedProgress();
+                showSuccess();
+            }
+        }
+
+        function showSuccess() {
+            // Populate summary
+            const summary = document.getElementById('successSummary');
+            const features = formData.features || {};
+            const orderingMode = features.ordering_mode || 'cart';
+
+            summary.innerHTML = `
+                <h4>Business Summary</h4>
+                <div class="summary-item">
+                    <span class="summary-label">Business Name</span>
+                    <span class="summary-value">${formData.display_name || 'N/A'}</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Category</span>
+                    <span class="summary-value">${formData.category || 'N/A'}</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Ordering System</span>
+                    <span class="summary-value ${features.ordering ? 'enabled' : 'disabled'}">${features.ordering ? (orderingMode === 'cart' ? 'Full Cart Mode' : 'Reservation Mode') : 'Disabled'}</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Booking System</span>
+                    <span class="summary-value ${features.booking ? 'enabled' : 'disabled'}">${features.booking ? 'Enabled' : 'Disabled'}</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Customer Accounts</span>
+                    <span class="summary-value ${features.accounts ? 'enabled' : 'disabled'}">${features.accounts ? 'Enabled' : 'Disabled'}</span>
+                </div>
+            `;
+
+            // Show relevant file lines
+            document.getElementById('productsLine').style.display = features.ordering ? 'block' : 'none';
+            document.getElementById('servicesLine').style.display = (features.booking || (features.ordering && orderingMode === 'reservation')) ? 'block' : 'none';
+
+            document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+            document.getElementById('successPage').classList.add('active');
+            document.getElementById('progressFill').style.width = '100%';
+            document.querySelectorAll('.progress-step').forEach(el => el.classList.add('completed'));
+        }
+
+        // ── Sheet Setup ──
+        function handleProductSource() {
+            const val = document.getElementById('productSource').value;
+            document.getElementById('sheetSetupBlock').classList.toggle('visible', val === 'apps_script');
+        }
+
+        let sheetHelpVisible = false;
+        function toggleSheetHelp() {
+            sheetHelpVisible = !sheetHelpVisible;
+            document.getElementById('sheetHelpContent').classList.toggle('visible', sheetHelpVisible);
+            document.getElementById('sheetHelpToggle').classList.toggle('open', sheetHelpVisible);
+        }
+
+        const sheetDefaultToken = 'my_bakery_secret_2026';
+        const sheetDefaultSheet  = 'Bakery Products Inventory V4';
+
+        function generateSheetCode(token, sheetName) {
+            const t = token || sheetDefaultToken;
+            const s = sheetName || sheetDefaultSheet;
+            return `function doGet(e) {\n  var token = e.parameter.token;\n  var SECRET_TOKEN = "${t}";\n  if (token !== SECRET_TOKEN) {\n    return ContentService.createTextOutput(\n      JSON.stringify({error: "Unauthorized"})\n    ).setMimeType(ContentService.MimeType.JSON);\n  }\n  var sheet = SpreadsheetApp.getActiveSpreadsheet()\n    .getSheetByName("${s}");\n  var data = sheet.getDataRange().getValues();\n  var headers = data[0];\n  var rows = [];\n  for (var i = 1; i < data.length; i++) {\n    var row = {};\n    for (var j = 0; j < headers.length; j++) {\n      row[headers[j]] = data[i][j];\n    }\n    rows.push(row);\n  }\n  return ContentService.createTextOutput(\n    JSON.stringify(rows)\n  ).setMimeType(ContentService.MimeType.JSON);\n}`;
+        }
+
+        function updateSheetCode() {
+            document.getElementById('sheetCodeOutput').textContent =
+                generateSheetCode(document.getElementById('genToken').value.trim(),
+                                  document.getElementById('genSheet').value.trim());
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const gt = document.getElementById('genToken');
+            const gs = document.getElementById('genSheet');
+            if (gt) gt.addEventListener('input', updateSheetCode);
+            if (gs) gs.addEventListener('input', updateSheetCode);
+        });
+
+        function copySheetCode() {
+            const btn = document.getElementById('sheetCopyBtn');
+            const code = document.getElementById('sheetCodeOutput').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = 'Copied!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = 'Copy';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        async function testSheetConnection() {
+            const url   = document.getElementById('sheetUrl').value.trim();
+            const token = document.getElementById('sheetToken').value.trim();
+            const result = document.getElementById('sheetTestResult');
+            const btn    = document.getElementById('sheetTestBtn');
+
+            if (!url) { result.className = 'sheet-test-result error'; result.textContent = 'Enter the Apps Script URL.'; return; }
+            if (!token) { result.className = 'sheet-test-result error'; result.textContent = 'Enter your secret token.'; return; }
+
+            result.className = 'sheet-test-result loading';
+            result.textContent = 'Testing...';
+            btn.disabled = true;
+
+            try {
+                const resp = await fetch(url + '?token=' + encodeURIComponent(token));
+                const data = await resp.json();
+
+                if (resp.ok && Array.isArray(data) && data.length > 0) {
+                    result.className = 'sheet-test-result success';
+                    result.textContent = 'Connected! Found ' + data.length + ' products. Your setup is correct.';
+                } else if (resp.ok && Array.isArray(data) && data.length === 0) {
+                    result.className = 'sheet-test-result success';
+                    result.textContent = 'Connected — but sheet is empty. Add products and test again.';
+                } else if (data && data.error) {
+                    result.className = 'sheet-test-result error';
+                    result.textContent = data.error + ' — check that your token matches SECRET_TOKEN in the script.';
+                } else {
+                    result.className = 'sheet-test-result error';
+                    result.textContent = 'Unexpected response. Check the URL and deployment.';
+                }
+            } catch (e) {
+                result.className = 'sheet-test-result error';
+                result.textContent = 'Could not reach endpoint. Check the URL and deployment.';
+            }
+
+            btn.disabled = false;
+        }
+
+        // Start
+        init();
+        setupAutoSave();
+    </script>
+</body>
+</html>
