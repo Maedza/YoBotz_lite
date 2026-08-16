@@ -13,7 +13,7 @@ YoBotz is a modular conversational automation system that gives businesses an in
 
 ## About YoBotz Lite
 
-YoBotz Lite is a lightweight portfolio version of the original working YoBotz product. It is a simplified implementation created specifically to showcase the project's architecture, design, and core functionality. It is intentionally smaller than the actual product and does not include all production features or integrations.
+YoBotz Lite is a lightweight, portfolio-focused version of the original YoBotz product and its larger production architecture. It is a simplified, local-focused implementation designed to showcase the project's architectural design, core concepts, and functionality. The repository intentionally omits certain production features, integrations, and infrastructure while preserving the fundamental architecture and design principles of the original system.
 
 ---
 
