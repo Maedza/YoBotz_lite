@@ -27,7 +27,8 @@ YoBotz Lite is a lightweight, portfolio-focused version of the original YoBotz p
 6. [Admin API](#admin-api)
 7. [Project Structure](#project-structure)
 8. [Running Locally](#running-locally)
-9. [Documentation](#documentation)
+9. [Contributing](#contributing)
+10. [Documentation](#documentation)
 
 ---
 
@@ -294,6 +295,25 @@ python3 -m uvicorn unified_gateway.server:app --host 0.0.0.0 --port 8000
 Set `PUBLIC_URL` to your public domain to auto-configure Telegram webhooks on startup. Without it, the server runs in local/dev mode.
 
 Redis is recommended for production deployments. The system degrades gracefully to JSON file storage when Redis is unavailable.
+
+---
+
+## Contributing
+
+Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) first — it covers the code quality guidelines and the required PR body template.
+
+**PR body requirements** — every pull request must include:
+
+| Section | What to fill in |
+|---------|-----------------|
+| **Summary** | What the change does |
+| **Why** | The problem it solves |
+| **Changes** | Bullet list of main changes |
+| **Testing** | How it was verified |
+| **Related Issues** | Issue links or `N/A` |
+| **Checklist** | Confirm code quality rules were followed |
+
+The full template is in [CONTRIBUTING.md → Pull Requests](CONTRIBUTING.md#pull-requests). PRs without a completed template will be sent back for updates.
 
 ---
 

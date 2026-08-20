@@ -68,6 +68,39 @@ These rules are non-negotiable. Every contribution must respect them:
 - Link any related issues.
 - Address review comments in follow-up commits.
 
+### PR Body Template
+
+Every PR **must** use the template below as its body. Fill in every section; if one doesn't apply, write `N/A` instead of deleting it.
+
+```markdown
+## Summary
+<!-- One or two sentences: what does this change do? -->
+
+## Why
+<!-- Why is this change needed? What problem does it solve? -->
+
+## Changes
+<!-- Bullet list of the main changes, e.g.:
+- Added `search [query]` command to ordering flow
+- Added `order_mode: inquiry` feature toggle
+-->
+
+## Testing
+<!-- How was this verified? e.g.: pytest -q, py_compile, manual chat test, N/A -->
+
+## Screenshots (optional)
+<!-- UI/UX changes only -->
+
+## Related Issues
+<!-- Closes #123, addresses #456, or N/A -->
+
+## Checklist
+- [ ] I followed the Code Quality Guidelines above
+- [ ] No `print()` statements — logging uses the configured logger
+- [ ] No platform (WhatsApp/Telegram) firing code was touched
+- [ ] I ran `pytest -q` (or noted why not)
+```
+
 ---
 
 ## CI and Checks
