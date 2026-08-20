@@ -48,6 +48,10 @@ data/sessions/sessions_yo_bakery.json*
 # Ignore per-business secrets
 businesses/**/.env
 
+# Runtime data — auto-created per business, never commit
+businesses/**/bookings.json
+businesses/**/locks.json
+
 # Ignore logs
 logs/
 *.log

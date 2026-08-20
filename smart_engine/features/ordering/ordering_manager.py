@@ -222,6 +222,7 @@ class OrderingManager:
         }
         if variant:
             cart_item["variant"] = variant["name"]
+        cart.append(cart_item)
         self.cart = cart
 
         return f"Added {quantity} x {item_name} to cart."
