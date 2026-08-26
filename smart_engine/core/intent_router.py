@@ -84,27 +84,38 @@ class IntentRouter:
 
         active_tool = session.get("active_tool")
         if active_tool == "ordering":
-            result = self.ordering_handler.handle_intent(intent, message, session, response_handler)
-            if result:
-                if result.meta.get("tool_completed"):
-                    session.pop("active_tool", None)
-                return result
+            if session.get("ordering_state") != OrderState.ORDERING.value:
+                logger.info("[ROUTER] stale ordering tool (state=%s), resetting", session.get("ordering_state"))
+                session.pop("active_tool", None)
+                self._persist_tool_state(session)
+            else:
+                result = self.ordering_handler.handle_intent(intent, message, session, response_handler)
+                if result:
+                    if result.meta.get("tool_completed"):
+                        session.pop("active_tool", None)
+                        self._persist_tool_state(session)
+                    return result
 
-            logger.info("[ROUTER] ordering tool active but returned None for '%s', staying in tool", message[:60])
-            return BotReply(self.ordering_handler.get_fallback_response(session, response_handler),
-                          meta={"intent": "ordering_active", "active_tool": "ordering"})
+                logger.info("[ROUTER] ordering tool active but returned None for '%s', staying in tool", message[:60])
+                om = OrderingManager(self.business_name, session, response_handler)
+                return om._show_current_state()
 
         if active_tool == "booking":
-            bm = self._create_booking_manager(session, response_handler)
-            result = bm.handle_message(message)
-            if result:
-                if result.meta.get("tool_completed"):
-                    session.pop("active_tool", None)
-                return result
+            if not session.get("booking_flow", {}).get("active"):
+                logger.info("[ROUTER] stale booking tool, resetting")
+                session.pop("active_tool", None)
+                self._persist_tool_state(session)
+            else:
+                bm = self._create_booking_manager(session, response_handler)
+                result = bm.handle_message(message)
+                if result:
+                    if result.meta.get("tool_completed"):
+                        session.pop("active_tool", None)
+                        self._persist_tool_state(session)
+                    return result
 
-            logger.info("[ROUTER] booking tool active but returned None for '%s', staying in tool", message[:60])
-            return BotReply("I didn't understand that. Please respond with a valid option for your current booking session.",
-                          meta={"intent": "booking_active", "active_tool": "booking"})
+                logger.info("[ROUTER] booking tool active but returned None for '%s', staying in tool", message[:60])
+                return bm._get_context_aware_fallback()
 
 
         if msg_lower in GLOBAL_EXIT_COMMANDS:

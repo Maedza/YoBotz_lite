@@ -34,14 +34,23 @@ def start_ngrok():
         return None
     return subprocess.Popen(
         ["ngrok", "http", str(PORT)],
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
     )
 
 
-def get_ngrok_url(max_attempts=30, retry_delay=2):
+def get_ngrok_url(ngrok, max_attempts=45, retry_delay=2):
     """Wait for ngrok API and return the public tunnel URL."""
-    for _ in range(max_attempts):
+    for attempt in range(max_attempts):
+        if ngrok.poll() is not None:
+            output = ngrok.stdout.read() if ngrok.stdout else ""
+            logger.error(
+                "ngrok process exited early (code %s). Output:\n%s",
+                ngrok.returncode,
+                output.strip() or "(no output)",
+            )
+            return None
         try:
             tunnels = requests.get(
                 "http://127.0.0.1:4040/api/tunnels", timeout=5
@@ -50,6 +59,8 @@ def get_ngrok_url(max_attempts=30, retry_delay=2):
                 return tunnels[0]["public_url"]
         except requests.RequestException:
             pass
+        if attempt and attempt % 5 == 0:
+            logger.info("Waiting for ngrok tunnel... (%ds)", attempt * retry_delay)
         time.sleep(retry_delay)
     return None
 
@@ -61,9 +72,15 @@ def main():
 
     server = None
     try:
-        url = get_ngrok_url()
+        url = get_ngrok_url(ngrok)
         if not url:
             logger.error("Failed to obtain ngrok URL")
+            if ngrok.poll() is None:
+                logger.error(
+                    "ngrok is still running but no tunnel appeared. Check network "
+                    "connectivity or run `ngrok http %s` manually to see the error.",
+                    PORT,
+                )
             return 1
         logger.info("Public URL: %s", url)
 

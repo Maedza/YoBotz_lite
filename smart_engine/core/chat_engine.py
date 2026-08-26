@@ -4,6 +4,7 @@ import logging
 from smart_engine.core.utils.model_handler import IntentModelHandler
 from smart_engine.core.session_manager import SessionManager
 from smart_engine.core.intent_router import IntentRouter
+from smart_engine.features.ordering.ordering_enums import OrderState
 from smart_engine.core.response_handler import ResponseHandler
 from smart_engine.core.utils.response_channel import BotReply
 from smart_engine.features.ordering.product_handler import ProductHandler
@@ -74,6 +75,17 @@ class ChatEngine:
 
         try:
             active_tool = session.get("active_tool")
+            if active_tool == "ordering" and session.get("ordering_state") != OrderState.ORDERING.value:
+                logger.info("[MODEL] stale ordering tool, clearing before prediction")
+                session.pop("active_tool", None)
+                self.session_manager.update_session(user_id, self.business_name, {"active_tool": None})
+                active_tool = None
+            elif active_tool == "booking" and not session.get("booking_flow", {}).get("active"):
+                logger.info("[MODEL] stale booking tool, clearing before prediction")
+                session.pop("active_tool", None)
+                self.session_manager.update_session(user_id, self.business_name, {"active_tool": None})
+                active_tool = None
+
             if active_tool:
                 logger.info("[MODEL] SKIP — active_tool=%s", active_tool)
                 intent = "fallback"

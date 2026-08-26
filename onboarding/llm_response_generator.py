@@ -138,26 +138,19 @@ def build_llm_prompt(ctx: ResponseContext) -> str:
         response_requests.append((f"{marker}: {desc}", body))
 
     responses_section = "\n".join(f"  {label} - {desc}" for label, desc in response_requests)
-
-    prompt = f"""You are a professional copywriter creating responses for a **{name}** Telegram chatbot.
-
-    # Pre-compute placeholder rules (Python 3.9 doesnt allow backslashes in f-string expressions)
     num_responses = len(response_requests)
-    has_hours = any(e["desc"] == "HOURS" for e in response_map)
-    has_location = any(e["desc"] == "LOCATION" for e in response_map)
-    has_contact = any(e["desc"] == "CONTACT" for e in response_map)
-    has_help = any(e["desc"] == "HELP" for e in response_map)
 
     placeholder_rules = ""
-    if has_hours:
+    if any(e["desc"] == "HOURS" for e in response_map):
         placeholder_rules += "- {{hours}} marker (RESPONSE_06): MUST include exactly {{hours}} on its own line. Do NOT write times.\n  CORRECT: \"Our hours:\n\n{{hours}}\"\n  WRONG: \"We are open Mon-Fri 9am-5pm\"\n"
-    if has_location:
+    if any(e["desc"] == "LOCATION" for e in response_map):
         placeholder_rules += "- {{address}} marker (RESPONSE_07): MUST include exactly {{address}} on its own line. Do NOT write street addresses.\n  CORRECT: \"Find us here:\n\n{{address}}\"\n  WRONG: \"We are at 123 Main Street\"\n"
-    if has_contact:
+    if any(e["desc"] == "CONTACT" for e in response_map):
         placeholder_rules += "- {{phone}}/{{email}} markers (RESPONSE_08): MUST use placeholders exactly. Do NOT invent contact info.\n  CORRECT: \"Reach us:\nPhone: {{phone}}\nEmail: {{email}}\"\n  WRONG: \"Call us at 555-123-4567\"\n"
-    if has_help:
+    if any(e["desc"] == "HELP" for e in response_map):
         placeholder_rules += "- RESPONSE_05 (HELP): Must be LONG and COMPREHENSIVE. Cover ALL enabled features."
 
+    prompt = f"""You are a professional copywriter creating responses for a **{name}** Telegram chatbot.
 
 BUSINESS CONTEXT:
 - Category: {category}
@@ -187,7 +180,7 @@ RESPONSES TO GENERATE:
 
 === PLACEHOLDER RULES (CRITICAL - VIOLATION CAUSES FAILURE) ===
 
-{"- {{hours}} marker (RESPONSE_06): MUST include exactly {{hours}} on its own line. Do NOT write times.\n  CORRECT: \"Our hours:\\n\\n{{hours}}\"\n  WRONG: \"We're open Mon-Fri 9am-5pm\"\n" if any(e["desc"] == "HOURS" for e in response_map) else ""}{"- {{address}} marker (RESPONSE_07): MUST include exactly {{address}} on its own line. Do NOT write street addresses.\n  CORRECT: \"Find us here:\\n\\n{{address}}\"\n  WRONG: \"We're at 123 Main Street\"\n" if any(e["desc"] == "LOCATION" for e in response_map) else ""}{"- {{phone}}/{{email}} markers (RESPONSE_08): MUST use placeholders exactly. Do NOT invent contact info.\n  CORRECT: \"Reach us:\\nPhone: {{phone}}\\nEmail: {{email}}\"\n  WRONG: \"Call us at (555) 123-4567\"\n" if any(e["desc"] == "CONTACT" for e in response_map) else ""}{"- RESPONSE_05 (HELP): Must be LONG and COMPREHENSIVE. Cover ALL enabled features." if any(e["desc"] == "HELP" for e in response_map) else ""}
+{placeholder_rules}
 
 === ANTI-PATTERNS (NEVER DO THESE) ===
 

@@ -3,6 +3,7 @@ import os
 import json
 import uuid
 from datetime import datetime, timedelta
+from pathlib import Path
 import pytz
 from typing import Optional, Dict, Any, List
 
@@ -30,7 +31,7 @@ class BookingManager:
         self.booking_state = BookingStateManager(session)
         self.booking_admin = BookingAdmin(session, manager=self)
 
-        self.business_dir = os.path.join("businesses", self.business_name)
+        self.business_dir = os.path.join(self._root_dir(), "businesses", self.business_name)
         self.bookings_file = os.path.join(self.business_dir, "bookings.json")
         self.locks_file = os.path.join(self.business_dir, "locks.json")
 
@@ -83,18 +84,34 @@ class BookingManager:
 
         return {}
 
+    @staticmethod
+    def _root_dir() -> str:
+        return str(Path(__file__).resolve().parents[3])
+
     def ensure_file(self, path):
-        if not os.path.exists(path):
-            with open(path, "w") as f:
-                json.dump([], f)
+        try:
+            if not os.path.exists(path):
+                os.makedirs(os.path.dirname(path), exist_ok=True)
+                with open(path, "w") as f:
+                    json.dump([], f)
+        except Exception:
+            logger.warning("Could not create %s: will be created lazily on save", path)
 
     def load_json(self, path):
-        with open(path) as f:
-            return json.load(f)
+        if not os.path.exists(path):
+            return []
+        try:
+            with open(path) as f:
+                content = f.read().strip()
+                return json.loads(content) if content else []
+        except Exception:
+            logger.warning("Corrupted %s, treating as empty", path)
+            return []
 
     def save_json(self, path, data):
+        os.makedirs(os.path.dirname(path), exist_ok=True)
         with open(path, "w") as f:
-            json.dump(data, f, indent=2)
+            json.dump(data, f, indent=2, ensure_ascii=False)
 
     def load_services(self):
         path = os.path.join(self.business_dir, "services.yaml")
