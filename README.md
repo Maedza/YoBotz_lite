@@ -19,11 +19,11 @@ YoBotz Lite is a lightweight, portfolio-focused version of the original YoBotz p
 
 **Ordering demo** — cart, categories, variants, and order confirmation:
 
-https://github.com/user-attachments/assets/demo-ordering.mp4
+https://github.com/user-attachments/assets/1a4cbc18-314e-4445-a815-a727ffea4ee9
 
 **Booking demo** — service selection, date/time parsing, and slot validation:
 
-https://github.com/user-attachments/assets/demo-booking.mp4
+https://github.com/user-attachments/assets/739ea103-787f-4b5b-a793-dc4169d2cd2d
 
 **Owner notification** — order alert delivered to the business owner's Telegram:
 
