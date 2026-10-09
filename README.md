@@ -86,8 +86,8 @@ During business onboarding, an LLM can be used to generate initial response temp
 ### Installation
 
 ```bash
-git clone <repository-url>
-cd YoBotz_Lite
+git clone https://github.com/Maedza/YoBotz_lite.git
+cd YoBotz_lite
 pip install -r requirements.txt
 ```
 
@@ -121,7 +121,7 @@ BOT_TOKEN=yo_bakery_bot_token
 NOTIFICATION_BOT_TOKEN=yo_bakery_notification_token
 
 # Who receives those alerts
-BUSINESS_OWNER_CHAT_ID=987654321
+BUSINESS_OWNER_CHAT_ID=<owner_chat_id>
 ```
 
 > Note the key is `BOT_TOKEN` here — not `TELEGRAM_BOT_TOKEN`. That distinction keeps business tokens separate from the system token below.
@@ -250,7 +250,7 @@ The gateway exposes admin endpoints for managing businesses, vault secrets, hot-
 ## Project Structure
 
 ```
-YoBotz_Lite/
+YoBotz_lite/
 ├── auto_setup_gateway.py     One-command ngrok + uvicorn launch
 ├── unified_gateway/          FastAPI server, adapters, webhooks, routing
 │   ├── adapters/             Platform adapters (receive/send)
