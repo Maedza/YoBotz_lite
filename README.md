@@ -15,6 +15,20 @@ YoBotz is a modular conversational automation system that gives businesses an in
 
 YoBotz Lite is a lightweight, portfolio-focused version of the original YoBotz product and its larger production architecture. It is a simplified, local-focused implementation designed to showcase the project's architectural design, core concepts, and functionality. The repository intentionally omits certain production features, integrations, and infrastructure while preserving the fundamental architecture and design principles of the original system.
 
+### Demos
+
+**Ordering demo** — cart, categories, variants, and order confirmation:
+
+https://github.com/user-attachments/assets/demo-ordering.mp4
+
+**Booking demo** — service selection, date/time parsing, and slot validation:
+
+https://github.com/user-attachments/assets/demo-booking.mp4
+
+**Owner notification** — order alert delivered to the business owner's Telegram:
+
+<img src="assets/Owner notification.jpg" alt="Owner notification" width="300">
+
 ---
 
 ## Table of Contents
