@@ -26,9 +26,8 @@ YoBotz Lite is a lightweight, portfolio-focused version of the original YoBotz p
 5. [BusinessVault](#businessvault)
 6. [Admin API](#admin-api)
 7. [Project Structure](#project-structure)
-8. [Running Locally](#running-locally)
-9. [Contributing](#contributing)
-10. [Documentation](#documentation)
+8. [Contributing](#contributing)
+9. [Documentation](#documentation)
 
 ---
 
@@ -99,7 +98,37 @@ python3 -m uvicorn unified_gateway.server:app --host 0.0.0.0 --port 8000
 
 The server listens on `http://localhost:8000`.
 
-For a public webhook URL with auto-configured Telegram webhooks, see [Running Locally](#running-locally).
+### Minimum setup
+
+1. Create a bot with @BotFather on Telegram and copy its token.
+2. Create `businesses/yo_bakery/.env` and add:
+
+   ```
+   BOT_TOKEN=your_bot_token
+   NOTIFICATION_BOT_TOKEN=your_bot_token
+   ```
+
+   You can use the same token for both. No chat ID is needed: send a message
+   to your bot and the system picks up your chat automatically, so owner
+   notifications start arriving.
+
+3. Start the server (see Running above).
+
+   No root `.env` is required. It only holds developer and team settings
+   (Redis, logging, LLM keys, and the dev bots).
+
+### Checking that it started
+
+The uvicorn output in your terminal shows the server running on port 8000.
+Once you message your bot, notifications for that business start arriving.
+
+### Quick setup with a public webhook URL (requires [ngrok](https://ngrok.com))
+
+```bash
+python3 auto_setup_gateway.py
+```
+
+This starts an ngrok tunnel, boots the gateway, and auto-configures Telegram webhooks. Press Ctrl+C to stop everything cleanly.
 
 ---
 
@@ -243,7 +272,7 @@ vault.list_secrets()
 
 ## Admin API
 
-The gateway exposes admin endpoints for managing businesses, vault secrets, hot-reload, and product sync — full reference in the [Gateway API Reference](unified_gateway/README.md). No auth in the current build; protect behind a reverse proxy or VPN in production.
+The gateway exposes admin endpoints for managing businesses, vault secrets, hot-reload, and product sync — full reference in the [Gateway API Reference](unified_gateway/README.md). Admin endpoints are unauthenticated in this build. Run locally, or put them behind a reverse proxy, VPN or auth layer before exposing them.
 
 ---
 
@@ -273,28 +302,6 @@ YoBotz_lite/
 ├── requirements.txt          Python dependencies
 └── tools/                    Standalone utilities
 ```
-
----
-
-## Running Locally
-
-Quick setup with a public webhook URL (requires [ngrok](https://ngrok.com)):
-
-```bash
-python3 auto_setup_gateway.py
-```
-
-This starts an ngrok tunnel, boots the gateway, and auto-configures Telegram webhooks. Press Ctrl+C to stop everything cleanly.
-
-Or run directly:
-
-```bash
-python3 -m uvicorn unified_gateway.server:app --host 0.0.0.0 --port 8000
-```
-
-Set `PUBLIC_URL` to your public domain to auto-configure Telegram webhooks on startup. Without it, the server runs in local/dev mode.
-
-Redis is recommended for production deployments. The system degrades gracefully to JSON file storage when Redis is unavailable.
 
 ---
 
