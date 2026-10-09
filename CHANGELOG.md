@@ -14,6 +14,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/) and [Semantic Ver
 - **README Quick Start**: replaced placeholder repo URL with `https://github.com/Maedza/YoBotz_lite.git` and fixed `YoBotz_Lite` → `YoBotz_lite` casing in Quick Start and Project Structure sections.
 - **README `.env` example**: removed hardcoded `BUSINESS_OWNER_CHAT_ID=987654321` from the per-business env example; replaced with `<owner_chat_id>` placeholder.
 - **Router adapter lookup order**: webhook handler now tries per-business `bot_token` adapter first and falls back to the base adapter, instead of requiring the base adapter first. Multi-bot setups no longer need a system-level `TELEGRAM_BOT_TOKEN`; per-business tokens registered via BusinessVault are sufficient.
+- **Order notification timestamp timezone**: `_send_order_notification` now uses the business-configured `timezone` (from `business_config.yaml`) instead of naive `datetime.now()` (server local time). Order `order_id` and `timestamp` fields are both derived from the same business-local moment.
 
 ### Security
 - **Runtime data no longer committed**: `businesses/**/bookings.json` and `businesses/**/locks.json` are now gitignored and removed from version control. These files are auto-created at runtime and contain business-local operational data.
