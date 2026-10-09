@@ -526,7 +526,7 @@ class NotificationService:
     ) -> None:
         """Send booking notification from synchronous context (runs in background thread)"""
 
-        datetime_str = booking_data.get('datetime', booking_data.get('datetime_display', 'N/A'))
+        datetime_str = booking_data.get('datetime_display', booking_data.get('datetime', 'N/A'))
 
 
         booking_date = datetime_str
@@ -615,7 +615,7 @@ class NotificationService:
     ) -> None:
         """Send booking cancellation notification from synchronous context (runs in background thread)"""
 
-        datetime_str = booking_data.get('datetime', booking_data.get('datetime_display', 'N/A'))
+        datetime_str = booking_data.get('datetime_display', booking_data.get('datetime', 'N/A'))
 
 
         booking_date = datetime_str

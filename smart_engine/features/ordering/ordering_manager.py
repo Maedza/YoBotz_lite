@@ -2,6 +2,7 @@ import re
 import logging
 from typing import Dict, Any, Optional, Tuple
 from datetime import datetime
+import pytz
 
 from smart_engine.core.utils.response_channel import BotReply
 from smart_engine.core.response_handler import ResponseHandler
@@ -1039,7 +1040,11 @@ class OrderingManager:
         try:
             from notification_system.service import get_notification_service
 
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            tz_name = self.business_config.get("timezone", "UTC")
+            tz = pytz.timezone(tz_name)
+            now_local = datetime.now(tz)
+
+            timestamp = now_local.strftime("%Y%m%d_%H%M%S")
             order_id = f"{self.business_name}_{timestamp}"
 
             order_data = {
@@ -1047,7 +1052,7 @@ class OrderingManager:
                 "customer_name": self.session.get("user_name", "Customer"),
                 "total_amount": sum(item.get("price", 0) * item.get("quantity", 1) for item in self.cart),
                 "items": self.cart,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": now_local.isoformat(),
                 "order_type": order_type
             }
 

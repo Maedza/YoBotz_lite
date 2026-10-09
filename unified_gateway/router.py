@@ -357,16 +357,18 @@ class MessageRouter:
         logger.debug(f"Handling webhook from {platform}" + (f" for business '{business_name}'" if business_name else ""))
 
 
-        adapter = self.get_adapter(platform)
-        if not adapter:
-            raise ValueError(f"No adapter found for platform: {platform}")
-
-
+        adapter = None
         if bot_token and platform == "telegram":
 
             adapter = self._get_telegram_adapter_for_bot(bot_token)
             if not adapter:
                 raise ValueError(f"No adapter found for bot token: {bot_token[:10]}...")
+
+
+        if not adapter:
+            adapter = self.get_adapter(platform)
+            if not adapter:
+                raise ValueError(f"No adapter found for platform: {platform}")
 
 
         if not await adapter.verify_webhook(headers, body):
