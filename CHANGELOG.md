@@ -21,6 +21,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/) and [Semantic Ver
 - **README Running Locally**: removed the `Running Locally` section and its TOC entry; its content is now covered by `### Running` in Quick Start.
 - **README demos**: added `assets/` folder with ordering and booking demo videos plus an owner-notification screenshot, embedded under `About YoBotz Lite`.
 - **Repo size**: removed `demo-booking.mp4` and `demo-ordering.mp4` from `assets/` (duplicated by the upload PR); the README plays them via GitHub attachment URLs, which live outside the repo.
+- **README positioning**: clarified that Redis is part of the production YoBotz system but optional in YoBotz Lite (falls back to local JSON). Clarified that LLM client libraries and API keys are optional and pluggable: users can supply their own provider (HF, Groq, OpenAI, Anthropic, self-hosted) without changing the bundled deps.
 
 ### Security
 - **Runtime data no longer committed**: `businesses/**/bookings.json` and `businesses/**/locks.json` are now gitignored and removed from version control. These files are auto-created at runtime and contain business-local operational data.
