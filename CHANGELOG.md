@@ -19,6 +19,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/) and [Semantic Ver
 - **README Quick Start**: added `Minimum setup` and `Checking that it started` subsections after Running, and rewrote the Admin API warning to be plainer about auth.
 - **README ngrok quick-setup**: moved the `Quick setup with a public webhook URL (requires ngrok)` block from Running Locally into Quick Start, right after `Checking that it started`, so it isn't missed.
 - **README Running Locally**: removed the `Running Locally` section and its TOC entry; its content is now covered by `### Running` in Quick Start.
+- **README demos**: added `assets/` folder with ordering and booking demo videos plus an owner-notification screenshot, embedded under `About YoBotz Lite`.
 
 ### Security
 - **Runtime data no longer committed**: `businesses/**/bookings.json` and `businesses/**/locks.json` are now gitignored and removed from version control. These files are auto-created at runtime and contain business-local operational data.
