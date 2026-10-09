@@ -2,14 +2,14 @@
 
 ## About YoBotz
 
-YoBotz is a modular conversational automation system that gives businesses an intelligent interface for handling customer interactions through messaging platforms. It turns natural-language customer requests into structured actions — bookings, answers to common questions, and other business-specific workflows.
+YoBotz is a modular conversational automation system that gives businesses an intelligent interface for handling customer interactions through messaging platforms. It turns natural-language customer requests into structured actions: bookings, answers to common questions, and other business-specific workflows.
 
 **Design principles:**
 
-- **Layered architecture** — message transport, conversation orchestration, intent processing, business logic, and external integrations are separated, keeping the core independent of any single platform.
-- **Configurable foundation** — adapts to different types of businesses with minimal changes.
-- **Extensible by design** — additional messaging platforms, storage systems, AI services, and infrastructure such as Redis plug in without changing the core application.
-- **AI as a component** — dedicated processing layers interpret requests and pass structured data into deterministic business logic, rather than treating the language model as the entire application.
+- **Layered architecture**: message transport, conversation orchestration, intent processing, business logic, and external integrations are separated, keeping the core independent of any single platform.
+- **Configurable foundation**: adapts to different types of businesses with minimal changes.
+- **Extensible by design**: additional messaging platforms, storage systems, AI services, and infrastructure such as Redis plug in without changing the core application.
+- **AI as a component**: dedicated processing layers interpret requests and pass structured data into deterministic business logic, rather than treating the language model as the entire application.
 
 ## About YoBotz Lite
 
@@ -17,15 +17,15 @@ YoBotz Lite is a lightweight, portfolio-focused version of the original YoBotz p
 
 ### Demos
 
-**Ordering demo** — cart, categories, variants, and order confirmation:
+**Ordering demo**: cart, categories, variants, and order confirmation.
 
-https://github.com/user-attachments/assets/demo-ordering.mp4
+https://github.com/user-attachments/assets/1a4cbc18-314e-4445-a815-a727ffea4ee9
 
-**Booking demo** — service selection, date/time parsing, and slot validation:
+**Booking demo**: service selection, date/time parsing, and slot validation.
 
-https://github.com/user-attachments/assets/demo-booking.mp4
+https://github.com/user-attachments/assets/739ea103-787f-4b5b-a793-dc4169d2cd2d
 
-**Owner notification** — order alert delivered to the business owner's Telegram:
+**Owner notification**: order alert delivered to the business owner's Telegram.
 
 <img src="assets/Owner notification.jpg" alt="Owner notification" width="300">
 
@@ -150,9 +150,9 @@ This starts an ngrok tunnel, boots the gateway, and auto-configures Telegram web
 
 ### Environment Variables
 
-YoBotz Lite uses **two `.env` files**, one per scope. Both are gitignored — never commit real tokens.
+YoBotz Lite uses **two `.env` files**, one per scope. Both are gitignored; never commit real tokens.
 
-#### `businesses/{name}/.env` — Business secrets
+#### `businesses/{name}/.env`: business secrets
 
 One per business. Stores the secrets for **that business only**: its own bot, its notification bot, and its chat IDs. Read by BusinessVault (file mode).
 
@@ -167,11 +167,11 @@ NOTIFICATION_BOT_TOKEN=yo_bakery_notification_token
 BUSINESS_OWNER_CHAT_ID=<owner_chat_id>
 ```
 
-> Note the key is `BOT_TOKEN` here — not `TELEGRAM_BOT_TOKEN`. That distinction keeps business tokens separate from the system token below.
+> Note the key is `BOT_TOKEN` here, not `TELEGRAM_BOT_TOKEN`. That distinction keeps business tokens separate from the system token below.
 
-#### Root `.env` — System secrets (devs & team)
+#### Root `.env`: system secrets (devs and team)
 
-A single file at the project root. Holds **system-level** settings: which business is the default, Redis, logging, and the Telegram bots owned by **the devs/team** — not by any business. These are fallbacks when a business has no vault value.
+A single file at the project root. Holds **system-level** settings: which business is the default, Redis, logging, and the Telegram bots owned by **the devs/team**, not by any business. These are fallbacks when a business has no vault value.
 
 ```env
 # Which business handles unidentified chats
@@ -204,7 +204,7 @@ GROQ_API_KEY=your_groq_api_key
 APPS_SCRIPT_DEFAULT_TOKEN=
 ```
 
-**In short:** the root `.env` is for the system and the team; `businesses/{name}/.env` is for a single business. A business's own bots live in its own file — separate from the dev/team bots.
+**In short:** the root `.env` is for the system and the team; `businesses/{name}/.env` is for a single business. A business's own bots live in its own file, separate from the dev/team bots.
 
 ### Business Configuration
 
@@ -231,8 +231,8 @@ features:
 
 Messages support two placeholder mechanisms, both resolved at runtime:
 
-1. **Business-config placeholders** — `{{hours}}`, `{{address}}`, `{{phone}}`, `{{email}}` are replaced from `business_config.yaml`, so config changes propagate without regenerating responses.
-2. **Format variables** — `{variable}` style, populated by the engine (e.g. `{day_display}`, `{business_hours}`, `{business_name}`).
+1. **Business-config placeholders**: `{{hours}}`, `{{address}}`, `{{phone}}`, `{{email}}` are replaced from `business_config.yaml`, so config changes propagate without regenerating responses.
+2. **Format variables**: `{variable}` style, populated by the engine (e.g. `{day_display}`, `{business_hours}`, `{business_name}`).
 
 ```yaml
 day_selected_prompt: |
@@ -258,7 +258,7 @@ The mode is picked automatically: if `REDIS_URL` is set in the root `.env`, secr
 
 ### Usage
 
-In **file mode** you never touch code — just create `businesses/{name}/.env` (see [Environment Variables](#environment-variables)) and the vault reads it automatically. Use the Python API only for programmatic access (Redis mode or custom keys):
+In **file mode** you never touch code; just create `businesses/{name}/.env` (see [Environment Variables](#environment-variables)) and the vault reads it automatically. Use the Python API only for programmatic access (Redis mode or custom keys):
 
 ```python
 from core.business_vault import BusinessVault
@@ -280,13 +280,13 @@ vault.list_secrets()
 
 1. Create a directory `businesses/{new_business}/` with `business_config.yaml`, `responses.yaml`, and any catalogs (or use the onboarding wizard to generate them).
 2. Register secrets in the vault (file mode: a `.env` in the business directory; redis mode: `set_secret`).
-3. Restart the gateway — the `BusinessRegistry` auto-discovers the new directory — or call `POST /admin/reload`.
+3. Restart the gateway; the `BusinessRegistry` auto-discovers the new directory, or call `POST /admin/reload`.
 
 ---
 
 ## Admin API
 
-The gateway exposes admin endpoints for managing businesses, vault secrets, hot-reload, and product sync — full reference in the [Gateway API Reference](unified_gateway/README.md). Admin endpoints are unauthenticated in this build. Run locally, or put them behind a reverse proxy, VPN or auth layer before exposing them.
+The gateway exposes admin endpoints for managing businesses, vault secrets, hot-reload, and product sync; full reference in the [Gateway API Reference](unified_gateway/README.md). Admin endpoints are unauthenticated in this build. Run locally, or put them behind a reverse proxy, VPN or auth layer before exposing them.
 
 ---
 
@@ -321,9 +321,9 @@ YoBotz_lite/
 
 ## Contributing
 
-Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) first — it covers the code quality guidelines and the required PR body template.
+Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) first; it covers the code quality guidelines and the required PR body template.
 
-**PR body requirements** — every pull request must include:
+**PR body requirements**: every pull request must include:
 
 | Section | What to fill in |
 |---------|-----------------|
@@ -334,13 +334,13 @@ Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) first — it 
 | **Related Issues** | Issue links or `N/A` |
 | **Checklist** | Confirm code quality rules were followed |
 
-The full template is in [CONTRIBUTING.md → Pull Requests](CONTRIBUTING.md#pull-requests). PRs without a completed template will be sent back for updates.
+The full template is in [CONTRIBUTING.md, Pull Requests](CONTRIBUTING.md#pull-requests). PRs without a completed template will be sent back for updates.
 
 ---
 
 ## Documentation
 
-- [RESERVATION_CONFIG.md](RESERVATION_CONFIG.md) — Reservation and booking setup
-- [LOGGING_GUIDELINES.md](LOGGING_GUIDELINES.md) — Logging standards
-- [CONTRIBUTING.md](CONTRIBUTING.md) — Contribution guidelines
-- [unified_gateway/README.md](unified_gateway/README.md) — Gateway API reference
+- [RESERVATION_CONFIG.md](RESERVATION_CONFIG.md): Reservation and booking setup
+- [LOGGING_GUIDELINES.md](LOGGING_GUIDELINES.md): Logging standards
+- [CONTRIBUTING.md](CONTRIBUTING.md): Contribution guidelines
+- [unified_gateway/README.md](unified_gateway/README.md): Gateway API reference
