@@ -29,7 +29,7 @@ https://github.com/user-attachments/assets/739ea103-787f-4b5b-a793-dc4169d2cd2d
 
 **Owner notification**: order alert delivered to the business owner's Telegram.
 
-<img src="assets/Owner notification.jpg" alt="Owner notification" width="300">
+<img src="assets/owner_notification.jpg" alt="Owner notification" width="300">
 
 ---
 
