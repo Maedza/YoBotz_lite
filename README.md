@@ -15,6 +15,8 @@ YoBotz is a modular conversational automation system that gives businesses an in
 
 YoBotz Lite is a lightweight, portfolio-focused version of the original YoBotz product and its larger production architecture. It is a simplified, local-focused implementation designed to showcase the project's architectural design, core concepts, and functionality. The repository intentionally omits certain production features, integrations, and infrastructure while preserving the fundamental architecture and design principles of the original system.
 
+> **Note:** The original YoBotz (production) deployment uses Redis for state management and external AI services. YoBotz Lite uses local JSON fallbacks for both and is intended only for local development and portfolio review.
+
 ### Demos
 
 **Ordering demo**: cart, categories, variants, and order confirmation.
@@ -92,7 +94,7 @@ During business onboarding, an LLM can be used to generate initial response temp
 
 ### Prerequisites
 
-- Python 3.10+
+- Python 3.8+
 - Redis (optional; JSON fallback included)
 - Telegram Bot Token
 
