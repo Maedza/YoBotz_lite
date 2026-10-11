@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 950" width="1400" height="950">
+<style>text{font-family:Helvetica,Arial,sans-serif}.s{font-size:11px;fill:#1e293b;text-anchor:middle}.t{font-size:12px;font-weight:bold;fill:#1e293b;text-anchor:middle}.g{font-size:13px;font-weight:bold;text-anchor:middle}.n{font-size:10.5px;fill:#334155;font-style:italic}.k{stroke:#334155;stroke-width:1.5;fill:none}rect{stroke-width:1.5}</style><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker></defs>
+<rect width="1400" height="950" fill="white"/>
+<rect x="20" y="20" width="160" height="280" rx="10" fill="#f5f9ff" stroke="#2563eb"/>
+<text x="100" y="42" class="g" fill="#2563eb">CLIENTS / CHANNELS</text>
+<rect x="35" y="55" width="130" height="52" rx="7" fill="#eef5ff" stroke="#2563eb"/>
+<text x="100" y="75" class="t">Telegram</text>
+<rect x="35" y="117" width="130" height="52" rx="7" fill="#f5f5f5" stroke="#888888" stroke-dasharray="5 4"/>
+<text x="100" y="137" class="t" fill="#555">WhatsApp</text>
+<text x="100" y="154" class="s" fill="#555">(not in Lite)</text>
+<rect x="35" y="179" width="130" height="52" rx="7" fill="#f5f5f5" stroke="#888888" stroke-dasharray="5 4"/>
+<text x="100" y="199" class="t" fill="#555">Web / Landing Page</text>
+<text x="100" y="216" class="s" fill="#555">(not in Lite)</text>
+<rect x="35" y="241" width="130" height="52" rx="7" fill="#f5f5f5" stroke="#888888" stroke-dasharray="5 4"/>
+<text x="100" y="261" class="t" fill="#555">Other Clients</text>
+<text x="100" y="278" class="s" fill="#555">(not in Lite)</text>
+<line x1="180" y1="160" x2="220" y2="160" class="k" marker-end="url(#ah)"/>
+<rect x="220" y="20" width="820" height="280" rx="10" fill="#f5f9ff" stroke="#2563eb"/>
+<text x="630" y="42" class="g" fill="#2563eb">1. ENTRY LAYER: unified_gateway</text>
+<rect x="245" y="60" width="170" height="130" rx="7" fill="#eef5ff" stroke="#2563eb"/>
+<text x="330" y="80" class="t">FastAPI Server</text>
+<text x="330" y="97" class="s">/telegram/webhook/{token}</text>
+<text x="330" y="114" class="s">/webhook/telegram</text>
+<text x="330" y="131" class="s">/admin/*</text>
+<rect x="445" y="60" width="170" height="130" rx="7" fill="#eef5ff" stroke="#2563eb"/>
+<text x="530" y="80" class="t">MessageRouter</text>
+<text x="530" y="97" class="s">handle_webhook</text>
+<text x="530" y="114" class="s">route_message</text>
+<text x="530" y="131" class="s">send_message</text>
+<rect x="645" y="60" width="170" height="130" rx="7" fill="#eef5ff" stroke="#2563eb"/>
+<text x="730" y="80" class="t">Platform Adapters</text>
+<text x="730" y="97" class="s">receive_message</text>
+<text x="730" y="114" class="s">send_message</text>
+<text x="730" y="131" class="s">(Telegram in Lite)</text>
+<rect x="845" y="60" width="170" height="130" rx="7" fill="#eef5ff" stroke="#2563eb"/>
+<text x="930" y="80" class="t">Delivery Tracker</text>
+<text x="930" y="97" class="s">track_message</text>
+<text x="930" y="114" class="s">update_status</text>
+<line x1="415" y1="125" x2="445" y2="125" class="k" marker-end="url(#ah)"/>
+<line x1="615" y1="125" x2="645" y2="125" class="k" marker-end="url(#ah)"/>
+<line x1="815" y1="125" x2="845" y2="125" class="k" marker-end="url(#ah)"/>
+<rect x="480" y="222" width="300" height="44" rx="7" fill="#eef5ff" stroke="#2563eb"/>
+<text x="630" y="242" class="t">User Mapper</text>
+<line x1="530" y1="222" x2="530" y2="190" class="k" marker-end="url(#ah)" marker-start="url(#ah)"/>
+<line x1="730" y1="222" x2="730" y2="190" class="k" marker-end="url(#ah)" marker-start="url(#ah)"/>
+<line x1="1040" y1="160" x2="1070" y2="160" class="k" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+<rect x="1070" y="20" width="310" height="280" rx="10" fill="#f4fbf6" stroke="#15803d"/>
+<text x="1225" y="42" class="g" fill="#15803d">2. MULTI-BUSINESS CORE</text>
+<rect x="1090" y="55" width="270" height="65" rx="7" fill="#eaf7ee" stroke="#15803d"/>
+<text x="1225" y="75" class="t">Business Registry</text>
+<text x="1225" y="92" class="s">discovers businesses</text>
+<text x="1225" y="109" class="s">hot-reload</text>
+<rect x="1090" y="135" width="270" height="65" rx="7" fill="#eaf7ee" stroke="#15803d"/>
+<text x="1225" y="155" class="t">Business Vault</text>
+<text x="1225" y="172" class="s">secrets &amp; per-business</text>
+<text x="1225" y="189" class="s">bot tokens</text>
+<rect x="1090" y="215" width="270" height="65" rx="7" fill="#eaf7ee" stroke="#15803d"/>
+<text x="1225" y="235" class="t">Business Loader</text>
+<text x="1225" y="252" class="s">business_config.yaml</text>
+<text x="1225" y="269" class="s">+ secrets from vault</text>
+<line x1="1225" y1="120" x2="1225" y2="135" class="k" marker-end="url(#ah)"/>
+<line x1="1225" y1="200" x2="1225" y2="215" class="k" marker-end="url(#ah)"/>
+<rect x="20" y="350" width="1020" height="310" rx="10" fill="#f8f5ff" stroke="#6d28d9"/>
+<text x="530" y="372" class="g" fill="#6d28d9">3. SMART ENGINE: smart_engine/core</text>
+<rect x="45" y="395" width="240" height="80" rx="7" fill="#f1ecff" stroke="#6d28d9"/>
+<text x="165" y="415" class="t">Chat Engine</text>
+<text x="165" y="432" class="s">process_message()</text>
+<text x="165" y="449" class="s">returns BotReply</text>
+<rect x="335" y="395" width="240" height="80" rx="7" fill="#f1ecff" stroke="#6d28d9"/>
+<text x="455" y="415" class="t">Business Resolver</text>
+<text x="455" y="432" class="s">resolve business</text>
+<text x="455" y="449" class="s">(via Registry)</text>
+<rect x="625" y="395" width="240" height="80" rx="7" fill="#f1ecff" stroke="#6d28d9"/>
+<text x="745" y="415" class="t">Intent Router</text>
+<text x="745" y="432" class="s">route intent</text>
+<text x="745" y="449" class="s">(LLM optional)</text>
+<line x1="285" y1="435" x2="335" y2="435" class="k" marker-end="url(#ah)"/>
+<line x1="575" y1="435" x2="625" y2="435" class="k" marker-end="url(#ah)"/>
+<rect x="45" y="525" width="175" height="110" rx="7" fill="#f1ecff" stroke="#6d28d9"/>
+<text x="132.5" y="545" class="t">Session Manager</text>
+<text x="132.5" y="562" class="s">persisted</text>
+<text x="132.5" y="579" class="s">per-user state</text>
+<rect x="243" y="525" width="175" height="110" rx="7" fill="#f1ecff" stroke="#6d28d9"/>
+<text x="330.5" y="545" class="t">Feature Toggle</text>
+<text x="330.5" y="562" class="s">enable / disable</text>
+<text x="330.5" y="579" class="s">features</text>
+<rect x="441" y="525" width="175" height="110" rx="7" fill="#f1ecff" stroke="#6d28d9"/>
+<text x="528.5" y="545" class="t">Response Handler</text>
+<text x="528.5" y="562" class="s">responses.yaml</text>
+<text x="528.5" y="579" class="s">+ {{placeholders}}</text>
+<rect x="639" y="525" width="175" height="110" rx="7" fill="#fff3e0" stroke="#d97706"/>
+<text x="726.5" y="545" class="t">Booking</text>
+<text x="726.5" y="562" class="s">booking_manager</text>
+<text x="726.5" y="579" class="s">booking_state_manager</text>
+<text x="726.5" y="596" class="s">booking_admin</text>
+<rect x="837" y="525" width="175" height="110" rx="7" fill="#fff3e0" stroke="#d97706"/>
+<text x="924.5" y="545" class="t">Ordering</text>
+<text x="924.5" y="562" class="s">ordering_manager</text>
+<text x="924.5" y="579" class="s">product_handler</text>
+<text x="924.5" y="596" class="s">ordering_intent_handler</text>
+<text x="924.5" y="613" class="s">sheet_sync</text>
+<line x1="745" y1="475" x2="745" y2="500" class="k"/>
+<line x1="132.5" y1="500" x2="924.5" y2="500" class="k"/>
+<line x1="132.5" y1="500" x2="132.5" y2="525" class="k" marker-end="url(#ah)"/>
+<line x1="330.5" y1="500" x2="330.5" y2="525" class="k" marker-end="url(#ah)"/>
+<line x1="528.5" y1="500" x2="528.5" y2="525" class="k" marker-end="url(#ah)"/>
+<line x1="726.5" y1="500" x2="726.5" y2="525" class="k" marker-end="url(#ah)"/>
+<line x1="924.5" y1="500" x2="924.5" y2="525" class="k" marker-end="url(#ah)"/>
+<rect x="1070" y="350" width="310" height="310" rx="10" fill="#f5f9ff" stroke="#3b82f6"/>
+<text x="1225" y="372" class="g" fill="#3b82f6">4. AUXILIARY SERVICES</text>
+<rect x="1090" y="395" width="270" height="110" rx="7" fill="#eef5ff" stroke="#2563eb"/>
+<text x="1225" y="415" class="t">Notification System</text>
+<text x="1225" y="432" class="s">notifier, scheduler</text>
+<text x="1225" y="449" class="s">data_collector</text>
+<text x="1225" y="466" class="s">token_registry</text>
+<rect x="1090" y="525" width="270" height="110" rx="7" fill="#eef5ff" stroke="#2563eb"/>
+<text x="1225" y="545" class="t">Onboarding</text>
+<text x="1225" y="562" class="s">routes, generators</text>
+<text x="1225" y="579" class="s">validators</text>
+<text x="1225" y="596" class="s">llm_response_generator</text>
+<line x1="1040" y1="505" x2="1070" y2="505" class="k" stroke-dasharray="6 4" marker-end="url(#ah)" marker-start="url(#ah)"/>
+<line x1="530" y1="300" x2="530" y2="350" class="k" marker-end="url(#ah)"/>
+<text x="540" y="330" class="n">route_message</text>
+<line x1="730" y1="350" x2="730" y2="300" class="k" marker-end="url(#ah)"/>
+<text x="740" y="330" class="n">BotReply</text>
+<path d="M1040,372 H1052 V322 H1225 V300" fill="none" class="k" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+<text x="1062" y="316" class="n">via Registry</text>
+<rect x="20" y="720" width="1360" height="165" rx="10" fill="#fffdf0" stroke="#ca8a04"/>
+<text x="700" y="742" class="g" fill="#ca8a04">5. DATA LAYER</text>
+<rect x="40" y="755" width="244" height="115" rx="7" fill="#fffbe6" stroke="#ca8a04"/>
+<text x="162" y="775" class="t">businesses/{slug}/</text>
+<text x="162" y="792" class="s">business_config.yaml</text>
+<text x="162" y="809" class="s">responses.yaml</text>
+<text x="162" y="826" class="s">products.json</text>
+<text x="162" y="843" class="s">bookings.json</text>
+<text x="162" y="860" class="s">services.yaml</text>
+<rect x="309" y="755" width="244" height="115" rx="7" fill="#fffbe6" stroke="#ca8a04"/>
+<text x="431" y="775" class="t">configs/</text>
+<text x="431" y="792" class="s">unified_gateway_config.yaml</text>
+<text x="431" y="809" class="s">notification_config.yaml</text>
+<rect x="578" y="755" width="244" height="115" rx="7" fill="#fffbe6" stroke="#ca8a04"/>
+<text x="700" y="775" class="t">sessions/</text>
+<text x="700" y="792" class="s">per-user session</text>
+<text x="700" y="809" class="s">state files</text>
+<rect x="847" y="755" width="244" height="115" rx="7" fill="#fffbe6" stroke="#ca8a04"/>
+<text x="969" y="775" class="t">logs/</text>
+<text x="969" y="792" class="s">unified_gateway.log</text>
+<rect x="1116" y="755" width="244" height="115" rx="7" fill="#fffbe6" stroke="#ca8a04"/>
+<text x="1238" y="775" class="t">databases/</text>
+<text x="1238" y="792" class="s">(sqlite)</text>
+<line x1="530" y1="660" x2="530" y2="720" class="k" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+<text x="540" y="695" class="n">reads / writes</text>
+<text x="20" y="915" font-size="11" fill="#334155">Solid arrow: request flow.   Dashed arrow: lookup or scheduled link.   Dashed grey box: not in YoBotz Lite.</text>
+</svg>
