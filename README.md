@@ -72,7 +72,7 @@ During business onboarding, an LLM can be used to generate initial response temp
 
 ## Architecture
 
-![YoBotz Lite Architecture](system_flowcharts/flowdiagram.png)
+![YoBotz Lite Architecture](system_flowcharts/flowchart.svg)
 
 ### Key Components
 
